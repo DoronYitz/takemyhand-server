@@ -1,13 +1,19 @@
-import mongoose from "mongoose";
-import { Schema } from "mongoose";
+import mongoose, { model, Document } from "mongoose";
 
-interface Volunteer {
-	_id: any;
+interface IVolunteer extends Document {
+	first_name?: string;
+	last_name?: string;
+	neighborhood?: string;
 }
 
-const volunteerSchema = new mongoose.Schema({
-	first_name: { type: String, required: true },
-	last_name: { type: String, required: true },
-	neighborhood: { type: String, required: true },
-	firstName: { type: String, required: true },
-});
+const volunteerSchema = new mongoose.Schema(
+	{
+		first_name: { type: String, required: true },
+		last_name: { type: String, required: true },
+		neighborhood: { type: String, required: true },
+	},
+	{ timestamps: true }
+);
+
+const Volunteer = model<IVolunteer>("Volunteer", volunteerSchema);
+export default Volunteer;

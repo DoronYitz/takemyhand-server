@@ -1,10 +1,10 @@
 import express from "express";
+import { Document } from "mongoose";
 
 declare module "express-serve-static-core" {
 	interface Request {
-		myField?: string;
+		parcel: any;
+		volunteer: any;
 	}
-	interface Response {
-		myField?: string;
-	}
+	interface Response {}
 }

@@ -1,18 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
+import { Config } from "../config";
 
-let database: mongoose.Connection;
-export const connectToDB = () => {
-	// add your own uri below
-	const uri = 'mongodb://localhost:27017/takemyhand';
-	if (database) {
-		return;
-	}
-	mongoose.connect(uri);
-	database = mongoose.connection;
-	database.once('open', async () => {
-		console.log('Connected to database');
+/**
+ * Connect to database
+ */
+export const connectToDB = (): void => {
+	mongoose.connect(Config.MONGODB_URI);
+	const database = mongoose.connection;
+	database.once("open", () => {
+		console.log("Connected to database");
 	});
-	database.on('error', () => {
-		console.log('Error connecting to database');
+	database.on("error", () => {
+		console.log("Error connecting to database");
 	});
 };
