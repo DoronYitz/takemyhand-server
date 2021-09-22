@@ -2,6 +2,7 @@ import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
 import Volunteer from "../models/volunteer.model";
 
+// Get all volunteer
 export const getVolunteers: RequestHandler = async (req, res, next) => {
 	try {
 		// Getting all volunteers
@@ -12,10 +13,12 @@ export const getVolunteers: RequestHandler = async (req, res, next) => {
 	}
 };
 
+// Create volunteer
 export const createVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Create document of new volunteer
-		const newVolunteer = new Volunteer({ ...req.body });
+		const { first_name, last_name, neighborhood } = req.body;
+		const newVolunteer = new Volunteer({ first_name, last_name, neighborhood });
 		await newVolunteer.save();
 		res.status(StatusCodes.CREATED).json(newVolunteer);
 	} catch (error) {
@@ -23,6 +26,7 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
 	}
 };
 
+// Get volunteer by id
 export const getVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Getting id from params
@@ -39,12 +43,14 @@ export const getVolunteer: RequestHandler = async (req, res, next) => {
 	}
 };
 
+// Edit volunteer by id
 export const editVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Updating fields
-		req.volunteer.first_name = req.body.first_name;
-		req.volunteer.last_name = req.body.last_name;
-		req.volunteer.neighborhood = req.body.neighborhood;
+		const { first_name, last_name, neighborhood } = req.body;
+		req.volunteer.first_name = first_name;
+		req.volunteer.last_name = last_name;
+		req.volunteer.neighborhood = neighborhood;
 		await req.volunteer.save();
 		res.json(req.volunteer);
 	} catch (error) {
@@ -52,6 +58,7 @@ export const editVolunteer: RequestHandler = async (req, res, next) => {
 	}
 };
 
+// Delete volunteer by id
 export const deleteVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Delete

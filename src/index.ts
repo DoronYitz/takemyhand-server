@@ -1,7 +1,9 @@
 import express from "express";
 import cors from "cors";
-import parcel from "./routes/parcel.route";
-import volunteer from "./routes/volunteer.route";
+import parcelRouter from "./routes/parcel.route";
+import volunteerRouter from "./routes/volunteer.route";
+import userRouter from "./routes/user.route";
+import authRouter from "./routes/auth.route";
 import { Config } from "./config";
 import { connectToDB } from "./shared/database";
 import { errorMiddleware } from "./middlewares/error.middleware";
@@ -19,8 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(expressLogger);
 
 app.get("/ping", (req, res) => res.send("pong"));
-app.use("/parcel", parcel);
-app.use("/volunteer", volunteer);
+app.use("/api/auth", authRouter);
+app.use("/api/parcel", parcelRouter);
+app.use("/api/volunteer", volunteerRouter);
+app.use("/api/user", userRouter);
 
 app.use(errorMiddleware);
 app.listen(Config.EXPRESS_PORT, () => {

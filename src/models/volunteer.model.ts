@@ -12,7 +12,7 @@ const volunteerSchema = new mongoose.Schema(
 		last_name: { type: String, required: true },
 		neighborhood: { type: String, required: true },
 	},
-	{ timestamps: true }
+	{ timestamps: true, versionKey: false }
 );
 
 const Volunteer = model<IVolunteer>("Volunteer", volunteerSchema);
