@@ -42,8 +42,9 @@ export const getParcel: RequestHandler = async (req, res, next) => {
 
 export const editParcel: RequestHandler = async (req, res, next) => {
 	try {
-		req.parcel.driver_id = req.body.driver_id;
-		req.parcel.status = req.body.status;
+		req.parcel.for = req.body.for;
+		req.parcel.arrived = req.body.arrived;
+		req.parcel.volunteer_id = req.body.volunteer_id;
 		await req.parcel.save();
 		res.json(req.parcel);
 	} catch (error) {

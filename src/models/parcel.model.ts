@@ -3,7 +3,7 @@ import mongoose, { model, Schema, Document } from "mongoose";
 interface IParcel extends Document {
 	address?: string;
 	for?: string;
-	arrived?: string;
+	arrived?: boolean;
 	latitude?: string;
 	longitude?: string;
 	volunteer_id?: any;
