@@ -7,7 +7,7 @@ declare module "express-serve-static-core" {
 		volunteer: any;
 		user: {
 			userId?: string;
-			isAdmin?: boolean;
+			role?: string;
 		};
 	}
 	interface Response {}

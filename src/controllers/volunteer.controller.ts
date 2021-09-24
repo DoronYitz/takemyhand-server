@@ -17,8 +17,8 @@ export const getVolunteers: RequestHandler = async (req, res, next) => {
 export const createVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Create document of new volunteer
-		const { first_name, last_name, neighborhood } = req.body;
-		const newVolunteer = new Volunteer({ first_name, last_name, neighborhood });
+		const { full_name, phone, num_of_people } = req.body;
+		const newVolunteer = new Volunteer({ full_name, phone, num_of_people });
 		await newVolunteer.save();
 		res.status(StatusCodes.CREATED).json(newVolunteer);
 	} catch (error) {
@@ -47,10 +47,10 @@ export const getVolunteer: RequestHandler = async (req, res, next) => {
 export const editVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Updating fields
-		const { first_name, last_name, neighborhood } = req.body;
-		req.volunteer.first_name = first_name;
-		req.volunteer.last_name = last_name;
-		req.volunteer.neighborhood = neighborhood;
+		const { full_name, phone, num_of_people } = req.body;
+		req.volunteer.full_name = full_name;
+		req.volunteer.phone = phone;
+		req.volunteer.num_of_people = num_of_people;
 		await req.volunteer.save();
 		res.json(req.volunteer);
 	} catch (error) {

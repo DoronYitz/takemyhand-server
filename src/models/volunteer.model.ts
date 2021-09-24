@@ -1,16 +1,16 @@
 import mongoose, { model, Document } from "mongoose";
 
 interface IVolunteer extends Document {
-	first_name?: string;
-	last_name?: string;
-	neighborhood?: string;
+	full_name?: string;
+	phone?: string;
+	num_of_people?: number;
 }
 
 const volunteerSchema = new mongoose.Schema(
 	{
-		first_name: { type: String, required: true },
-		last_name: { type: String, required: true },
-		neighborhood: { type: String, required: true },
+		full_name: { type: String, required: true },
+		phone: { type: Number, required: true },
+		num_of_people: { type: Number, default: 1 },
 	},
 	{ timestamps: true, versionKey: false }
 );

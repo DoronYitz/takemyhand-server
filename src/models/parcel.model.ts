@@ -1,24 +1,22 @@
 import mongoose, { model, Schema, Document } from "mongoose";
 
 interface IParcel extends Document {
-	driver_id?: any;
-	addressee_name?: string;
-	status?: string;
 	address?: string;
-	neighborhood?: string;
+	for?: string;
+	arrived?: string;
 	latitude?: string;
 	longitude?: string;
+	volunteer_id?: any;
 }
 
 const parcelSchema = new mongoose.Schema(
 	{
-		addressee_name: { type: String },
-		status: { type: String, required: true },
-		neighborhood: { type: String, required: true },
 		address: { type: String, required: true },
+		for: { type: String, default: "Unknown" },
+		arrived: { type: Boolean, default: false },
 		latitude: { type: String },
 		longitude: { type: String },
-		driver_id: { type: Schema.Types.ObjectId },
+		volunteer_id: { type: Schema.Types.ObjectId },
 	},
 	{ timestamps: true }
 );

@@ -26,14 +26,14 @@ router.get("/:id", getVolunteer, (req, res) => res.json(req.parcel));
 // @access  Public
 router.post(
 	"/",
-	[
-		body("first_name", "First Name is required").exists(),
-		body("last_name", "Last Name is required").exists(),
-		body("neighborhood", "Neighborhood is required").exists(),
-		body("first_name", "Please enter only letters").isAlpha(),
-		body("last_name", "Please enter only letters").isAlpha(),
-		body("neighborhood", "Please enter only letters").isAlpha(),
-	],
+	// [
+	// 	body("full_name", "First Name is required").exists(),
+	// 	body("last_name", "Last Name is required").exists(),
+	// 	body("neighborhood", "Neighborhood is required").exists(),
+	// 	body("first_name", "Please enter only letters").isAlpha(),
+	// 	body("last_name", "Please enter only letters").isAlpha(),
+	// 	body("neighborhood", "Please enter only letters").isNumeric(),
+	// ],
 	validation,
 	createVolunteer
 );
