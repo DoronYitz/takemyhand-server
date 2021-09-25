@@ -6,7 +6,7 @@ import CustomError from "../shared/error";
 export const getParcels: RequestHandler = async (req, res, next) => {
 	try {
 		// Getting all parcels
-		const parcels = await Parcel.find();
+		const parcels = await Parcel.find().populate("volunteer");
 		res.json(parcels);
 	} catch (error) {
 		next(error);
@@ -29,7 +29,7 @@ export const getParcel: RequestHandler = async (req, res, next) => {
 		// Getting id from params
 		const id = req.params.id;
 		// Finding one
-		const parcelFound = await Parcel.findById(id);
+		const parcelFound = await Parcel.findById(id).populate("volunteer");
 		if (!parcelFound) {
 			throw new CustomError(404, `Parcel Not Found`);
 		}

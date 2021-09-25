@@ -6,7 +6,7 @@ interface IParcel extends Document {
 	arrived?: boolean;
 	latitude?: string;
 	longitude?: string;
-	volunteer_id?: any;
+	volunteer?: any;
 }
 
 const parcelSchema = new mongoose.Schema(
@@ -16,7 +16,7 @@ const parcelSchema = new mongoose.Schema(
 		arrived: { type: Boolean, default: false },
 		latitude: { type: String },
 		longitude: { type: String },
-		volunteer_id: { type: Schema.Types.ObjectId, default: null },
+		volunteer: { type: Schema.Types.ObjectId, default: null },
 	},
 	{ timestamps: true }
 );
