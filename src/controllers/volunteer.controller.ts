@@ -47,10 +47,11 @@ export const getVolunteer: RequestHandler = async (req, res, next) => {
 export const editVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Updating fields
-		const { full_name, phone, num_of_people } = req.body;
+		const { full_name, phone, num_of_people, driver } = req.body;
 		req.volunteer.full_name = full_name;
 		req.volunteer.phone = phone;
 		req.volunteer.num_of_people = num_of_people;
+		req.volunteer.driver = driver;
 		await req.volunteer.save();
 		res.json(req.volunteer);
 	} catch (error) {

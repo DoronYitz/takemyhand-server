@@ -8,6 +8,7 @@ declare module "express-serve-static-core" {
 		user: {
 			userId?: string;
 			role?: string;
+			isAdmin?: boolean;
 		};
 	}
 	interface Response {}
