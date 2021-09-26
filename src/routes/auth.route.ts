@@ -15,10 +15,10 @@ router.get("/", authMiddleware, getUser);
 // @access  Public
 router.post(
 	"/login",
-	[
-		body("email", "Please include a valid email").isEmail(),
-		body("password", "Password is required").exists(),
-	],
+	// [
+	// 	body("email", "Please include only numbers").isAlpha(),
+	// 	body("password", "Password is required").exists(),
+	// ],
 	loginUser
 );
 

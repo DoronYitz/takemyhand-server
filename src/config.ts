@@ -8,4 +8,5 @@ export class Config {
 	public static JWT_SECRET = process.env.JWT_SECRET;
 	public static JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 	public static JWT_EXPERATION = process.env.JWT_EXPERATION;
+	public static SECRET = process.env.SECRET;
 }

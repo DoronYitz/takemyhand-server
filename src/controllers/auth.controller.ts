@@ -1,17 +1,21 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import cookie from "cookie";
 import { RequestHandler } from "express";
 import { Payload } from "../models/payload.model";
-import User from "../models/user.model";
 import CustomError from "../shared/error";
 import { StatusCodes } from "http-status-codes";
 import { Config } from "../config";
+import Volunteer from "../models/volunteer.model";
 
+/**
+ * Gets according to the token
+ */
 export const getUser: RequestHandler = async (req, res, next) => {
 	try {
 		// Get the user without the password
-		const user = await User.findById(req.user.userId).select("-password");
-		res.json(user);
+		const volunteer = await Volunteer.findById(req.user.userId);
+		res.json(volunteer);
 	} catch (err) {
 		next(err);
 	}
@@ -19,24 +23,40 @@ export const getUser: RequestHandler = async (req, res, next) => {
 
 export const loginUser: RequestHandler = async (req, res, next) => {
 	try {
-		const { email, password } = req.body;
+		const { phone, password } = req.body;
 
-		// Check if email exist
-		let user = await User.findOne({ email });
-		if (!user) {
+		// Check if phone exist
+		let volunteer = await Volunteer.findOne({ phone });
+		if (!volunteer) {
 			throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid Credentials");
 		}
+		console.log("here");
+
+		// Delete it after test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		const salt = await bcrypt.genSalt(12);
+		const hashed = await bcrypt.hash(Config.SECRET, salt);
 
 		// Verify the password
-		const isMatch = await bcrypt.compare(password, user.password);
+		const isMatch = await bcrypt.compare(password, hashed);
 		if (!isMatch) {
 			throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid Credentials");
 		}
+
 		// Return JWT token
 		const payload: Payload = {
-			userId: user.id,
+			userId: volunteer.id,
+			role: "admin",
 		};
+
 		const token = jwt.sign(payload, Config.JWT_SECRET, { expiresIn: Config.JWT_EXPERATION });
+		res.setHeader(
+			"Set-Cookie",
+			cookie.serialize("token", token, {
+				httpOnly: true,
+				maxAge: 323341,
+				sameSite: true,
+			})
+		);
 		res.json({ token });
 	} catch (err) {
 		next(err);

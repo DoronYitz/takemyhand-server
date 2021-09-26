@@ -4,6 +4,7 @@ import {
 	createVolunteer,
 	deleteVolunteer,
 	editVolunteer,
+	getDrivers,
 	getVolunteer,
 	getVolunteers,
 } from "../controllers/volunteer.controller";
@@ -16,10 +17,15 @@ const router = Router();
 // @access  Admin
 router.get("/", getVolunteers);
 
+// @route   GET api/volunteer/drivers
+// @desc    Get all volunteers
+// @access  Admin
+router.get("/drivers", getDrivers);
+
 // @route   GET api/volunteer/<id>
 // @desc    Get volunteer by id
 // @access  Admin
-router.get("/:id", getVolunteer, (req, res) => res.json(req.parcel));
+router.get("/:id", getVolunteer, (req, res) => res.json(req.volunteer));
 
 // @route   POST api/volunteer/
 // @desc    Create volunteer, return volunteer that was created

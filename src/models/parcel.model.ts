@@ -16,7 +16,7 @@ const parcelSchema = new mongoose.Schema(
 		arrived: { type: Boolean, default: false },
 		latitude: { type: String },
 		longitude: { type: String },
-		volunteer: { type: Schema.Types.ObjectId, default: null },
+		volunteer: { type: Schema.Types.ObjectId, default: null, ref: "Volunteer" },
 	},
 	{ timestamps: true }
 );
