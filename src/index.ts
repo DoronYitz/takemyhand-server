@@ -3,6 +3,7 @@ import cors from "cors";
 import parcelRouter from "./routes/parcel.route";
 import volunteerRouter from "./routes/volunteer.route";
 import authRouter from "./routes/auth.route";
+import eventsRouter from "./routes/event.route";
 import { Config } from "./config";
 import { connectToDB } from "./shared/database";
 import { errorMiddleware } from "./middlewares/error.middleware";
@@ -32,6 +33,7 @@ app.get("/ping", (req, res) => res.send("pong"));
 app.use("/api/auth", authRouter);
 app.use("/api/parcel", parcelRouter);
 app.use("/api/volunteer", volunteerRouter);
+app.use("/api/events", eventsRouter);
 
 app.use(errorMiddleware);
 app.listen(Config.EXPRESS_PORT, () => {
