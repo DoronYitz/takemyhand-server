@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
 	createParcel,
+	createParcelsFromTextFile,
 	deleteParcel,
 	editParcel,
 	getParcel,
@@ -25,6 +26,11 @@ router.get("/:id", getParcel, (req, res) => res.json(req.parcel));
 // @desc    Create parcel
 // @access  Private
 router.post("/", createParcel);
+
+// @route   POST api/parcel/textFileHandler
+// @desc    Create parcel from text file
+// @access  Private
+router.post("/textFileHandler", createParcelsFromTextFile);
 
 // @route   PATCH api/parcel/<id>
 // @desc    Edit parcel

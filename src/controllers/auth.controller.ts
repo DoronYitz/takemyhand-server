@@ -28,9 +28,11 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 		// Check if phone exist
 		let volunteer = await Volunteer.findOne({ phone });
 		if (!volunteer) {
-			throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid Credentials");
+			throw new CustomError(
+				StatusCodes.BAD_REQUEST,
+				"Phone and password combination is incorrect."
+			);
 		}
-		console.log("here");
 
 		// Delete it after test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		const salt = await bcrypt.genSalt(12);
@@ -39,7 +41,10 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 		// Verify the password
 		const isMatch = await bcrypt.compare(password, hashed);
 		if (!isMatch) {
-			throw new CustomError(StatusCodes.BAD_REQUEST, "Invalid Credentials");
+			throw new CustomError(
+				StatusCodes.BAD_REQUEST,
+				"Phone and password combination is incorrect."
+			);
 		}
 
 		// Return JWT token

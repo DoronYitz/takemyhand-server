@@ -34,7 +34,7 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
 		// Check if volunteer already exist
 		let volunteer = await Volunteer.findOne({ phone });
 		if (volunteer) {
-			throw new CustomError(StatusCodes.BAD_REQUEST, "User already exists");
+			throw new CustomError(StatusCodes.BAD_REQUEST, "Volunteer already exists");
 		}
 
 		const newVolunteer = new Volunteer({ full_name, phone, num_of_people });

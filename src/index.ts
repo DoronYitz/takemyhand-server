@@ -9,6 +9,7 @@ import { connectToDB } from "./shared/database";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { expressLogger } from "./controllers/logger.controller";
 import cookieParser from "cookie-parser";
+import fileUpload from "express-fileupload";
 
 const app = express();
 // cors
@@ -25,6 +26,9 @@ app.use(express.urlencoded({ extended: true }));
 
 // cookie-parser
 app.use(cookieParser());
+
+// Http file handler
+app.use(fileUpload());
 
 // express-logger
 app.use(expressLogger);
