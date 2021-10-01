@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import Volunteer from "../models/volunteer.model";
+import { Volunteer } from "../models/volunteer.model";
 import CustomError from "../shared/error";
 
 // Get all volunteer

@@ -1,6 +1,6 @@
 import mongoose, { model, Document } from "mongoose";
 
-interface IEvent extends Document {
+interface IEvent {
 	title?: string;
 	category?: string;
 	description?: string;
@@ -21,5 +21,5 @@ const eventSchema = new mongoose.Schema(
 	{ timestamps: false, versionKey: false }
 );
 
-const Event = model<IEvent>("Event", eventSchema);
-export default Event;
+const Event = model<IEvent & Document>("Event", eventSchema);
+export { Event, IEvent };

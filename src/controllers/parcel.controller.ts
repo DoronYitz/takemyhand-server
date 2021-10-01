@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
-import Parcel from "../models/parcel.model";
+import { Parcel } from "../models/parcel.model";
 import CustomError from "../shared/error";
 
 export const getParcels: RequestHandler = async (req, res, next) => {

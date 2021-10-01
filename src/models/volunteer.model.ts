@@ -1,6 +1,6 @@
 import mongoose, { model, Document } from "mongoose";
 
-interface IVolunteer extends Document {
+interface IVolunteer {
 	phone?: string;
 	full_name?: string;
 	num_of_people?: number;
@@ -17,5 +17,5 @@ const volunteerSchema = new mongoose.Schema(
 	{ timestamps: true, versionKey: false }
 );
 
-const Volunteer = model<IVolunteer>("Volunteer", volunteerSchema);
-export default Volunteer;
+const Volunteer = model<IVolunteer & Document>("Volunteer", volunteerSchema);
+export { Volunteer, IVolunteer };

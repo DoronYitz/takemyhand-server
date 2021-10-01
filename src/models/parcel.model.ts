@@ -1,6 +1,6 @@
 import mongoose, { model, Schema, Document } from "mongoose";
 
-interface IParcel extends Document {
+interface IParcel {
 	address?: string;
 	for?: string;
 	arrived?: boolean;
@@ -21,6 +21,6 @@ const parcelSchema = new mongoose.Schema(
 	{ timestamps: true }
 );
 
-const Parcel = model<IParcel>("Parcel", parcelSchema);
+const Parcel = model<IParcel & Document>("Parcel", parcelSchema);
 
-export default Parcel;
+export { Parcel, IParcel };

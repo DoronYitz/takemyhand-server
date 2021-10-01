@@ -2,17 +2,23 @@ import winston, { format } from "winston";
 import expressWinston from "express-winston";
 
 const LOG_FORMAT = winston.format.combine(
-	format.align(),
 	format.timestamp({ format: "HH:mm:ss" }),
-	format.printf(({ level, message, timestamp, label }) => {
-		return `${timestamp} | ${level.toLowerCase()} | ${message.trim()}`;
+	format.splat(),
+	format.errors({ stack: true }),
+	format.printf((info) => {
+		let { timestamp, level, message, stack, ...rest } = info;
+		level = level.toUpperCase();
+		let metadata = JSON.stringify(rest, undefined, 2);
+		metadata = metadata === "{}" ? "" : "\n" + metadata;
+		const log = `[${timestamp}] ${level}: ${message.trim()}`;
+		return stack ? `${log}\n${stack}` : log;
 	})
 );
 
 export const expressLogger = expressWinston.logger({
 	transports: [new winston.transports.Console()],
 	format: LOG_FORMAT,
-	meta: false,
+	meta: true,
 	expressFormat: true,
 	colorize: false,
 });

@@ -6,7 +6,7 @@ import { Payload } from "../models/payload.model";
 import CustomError from "../shared/error";
 import { StatusCodes } from "http-status-codes";
 import { Config } from "../config";
-import Volunteer from "../models/volunteer.model";
+import { Volunteer } from "../models/volunteer.model";
 
 /**
  * Gets according to the token

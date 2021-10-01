@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
-import Event from "../models/event.model";
+import { Event } from "../models/event.model";
 import CustomError from "../shared/error";
 
 export const getEvents: RequestHandler = async (req, res, next) => {
