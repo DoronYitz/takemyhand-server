@@ -10,7 +10,7 @@ const LOG_FORMAT = winston.format.combine(
 		level = level.toUpperCase();
 		let metadata = JSON.stringify(rest, undefined, 2);
 		metadata = metadata === "{}" ? "" : "\n" + metadata;
-		const log = `[${timestamp}] ${level}: ${message.trim()}`;
+		const log = `[${timestamp}] ${level}: ${message.trim()} ${metadata}`;
 		return stack ? `${log}\n${stack}` : log;
 	})
 );
@@ -18,7 +18,8 @@ const LOG_FORMAT = winston.format.combine(
 export const expressLogger = expressWinston.logger({
 	transports: [new winston.transports.Console()],
 	format: LOG_FORMAT,
-	meta: true,
+	meta: false,
+	metaField: null,
 	expressFormat: true,
 	colorize: false,
 });

@@ -2,20 +2,18 @@ import mongoose, { model, Schema, Document } from "mongoose";
 
 interface IParcel {
 	address?: string;
-	for?: string;
 	arrived?: boolean;
-	latitude?: string;
-	longitude?: string;
+	lat?: number;
+	lng?: number;
 	volunteer?: any;
 }
 
 const parcelSchema = new mongoose.Schema(
 	{
 		address: { type: String, required: true },
-		for: { type: String, default: "Unknown" },
+		lat: { type: Number, required: true },
+		lng: { type: Number, required: true },
 		arrived: { type: Boolean, default: false },
-		latitude: { type: String },
-		longitude: { type: String },
 		volunteer: { type: Schema.Types.ObjectId, default: null, ref: "Volunteer" },
 	},
 	{ timestamps: true }

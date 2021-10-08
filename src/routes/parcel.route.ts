@@ -4,6 +4,7 @@ import {
 	createParcelsFromTextFile,
 	deleteParcel,
 	editParcel,
+	editParcelAddress,
 	getParcel,
 	getParcels,
 } from "../controllers/parcel.controller";
@@ -36,6 +37,8 @@ router.post("/textFileHandler", createParcelsFromTextFile);
 // @desc    Edit parcel
 // @access  Private
 router.patch("/:id", getParcel, editParcel);
+
+router.patch("/address/:id", getParcel, editParcelAddress);
 
 // @route   DELETE api/parcel/<id>
 // @desc    Delete parcel
