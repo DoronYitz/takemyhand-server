@@ -7,6 +7,7 @@ import CustomError from "../shared/error";
 import { StatusCodes } from "http-status-codes";
 import { Config } from "../config";
 import { Volunteer } from "../models/volunteer.model";
+import { Event } from "../models/event.model";
 
 /**
  * Gets according to the token
@@ -25,6 +26,15 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 	try {
 		const { phone, password } = req.body;
 
+		// Get active event secret
+		let activeEvent = await Event.findOne({ active: true });
+		if (!activeEvent) {
+			throw new CustomError(
+				StatusCodes.BAD_REQUEST,
+				"Phone and password combination is incorrect."
+			);
+		}
+
 		// Check if phone exist
 		let volunteer = await Volunteer.findOne({ phone });
 		if (!volunteer) {
@@ -34,12 +44,8 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 			);
 		}
 
-		// Delete it after test!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		const salt = await bcrypt.genSalt(12);
-		const hashed = await bcrypt.hash(Config.SECRET, salt);
-
 		// Verify the password
-		const isMatch = await bcrypt.compare(password, hashed);
+		const isMatch = await bcrypt.compare(password, activeEvent.secret);
 		if (!isMatch) {
 			throw new CustomError(
 				StatusCodes.BAD_REQUEST,
