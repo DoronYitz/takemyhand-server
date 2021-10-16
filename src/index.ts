@@ -10,8 +10,13 @@ import { errorMiddleware } from "./middlewares/error.middleware";
 import { expressLogger } from "./controllers/logger.controller";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const app = express();
+const httpServer = createServer(app);
+const io = new Server(httpServer, { cors: { origin: "http://localhost:4200", credentials: true } });
+
 // cors
 app.use(
 	cors({
@@ -40,8 +45,14 @@ app.use("/api/volunteer", volunteerRouter);
 app.use("/api/events", eventsRouter);
 
 app.use(errorMiddleware);
-app.listen(Config.EXPRESS_PORT, () => {
-	console.log(`Example app listening at http://localhost:${Config.EXPRESS_PORT}`);
+
+io.on("connection", (socket) => {
+	console.log("connected");
+	socket.on("message", (res) => console.log(res));
 });
+
+httpServer.listen(Config.EXPRESS_PORT, () =>
+	console.log(`Example app listening at http://localhost:${Config.EXPRESS_PORT}`)
+);
 
 connectToDB();
