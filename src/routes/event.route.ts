@@ -28,14 +28,14 @@ router.get("/active", getActiveEvent);
 // @access  Public
 router.post(
 	"/",
-	[
-		body("full_name", "First Name is required").exists(),
-		body("last_name", "Last Name is required").exists(),
-		body("neighborhood", "Neighborhood is required").exists(),
-		body("first_name", "Please enter only letters").isAlpha(),
-		body("last_name", "Please enter only letters").isAlpha(),
-		body("neighborhood", "Please enter only letters").isNumeric(),
-	],
+	// [
+	// 	body("full_name", "First Name is required").exists(),
+	// 	body("last_name", "Last Name is required").exists(),
+	// 	body("neighborhood", "Neighborhood is required").exists(),
+	// 	body("first_name", "Please enter only letters").isAlpha(),
+	// 	body("last_name", "Please enter only letters").isAlpha(),
+	// 	body("neighborhood", "Please enter only letters").isNumeric(),
+	// ],
 	validation,
 	createEvent
 );

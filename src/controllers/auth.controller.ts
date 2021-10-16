@@ -56,6 +56,7 @@ export const loginUser: RequestHandler = async (req, res, next) => {
 		// Return JWT token
 		const payload: Payload = {
 			userId: volunteer.id,
+			username: volunteer.full_name,
 			role: "admin",
 		};
 

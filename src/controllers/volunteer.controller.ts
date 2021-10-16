@@ -70,29 +70,26 @@ export const getVolunteer: RequestHandler = async (req, res, next) => {
 // Edit volunteer by id
 export const editVolunteer: RequestHandler = async (req, res, next) => {
 	try {
-		// Updating fields
-		const { full_name, phone, num_of_people, driver } = req.body;
-		req.volunteer.full_name = full_name;
-		req.volunteer.phone = phone;
-		req.volunteer.num_of_people = num_of_people;
-		req.volunteer.driver = driver;
-		await req.volunteer.save();
-		res.json(req.volunteer);
-	} catch (error) {
-		next(error);
-	}
-};
+		// Get volunteer
+		const volunteer = req.volunteer;
 
-// Edit volunteer address
-export const editVolunteerAddress: RequestHandler = async (req, res, next) => {
-	try {
-		const address = req.body.address;
-		const { lat, lng } = await getCoordinates(address);
-		req.volunteer.address = address;
-		req.volunteer.lat = lat;
-		req.volunteer.lng = lng;
-		await req.volunteer.save();
-		res.json(req.volunteer);
+		// Updating fields
+		const { full_name, phone, num_of_people, driver, address } = req.body;
+		volunteer.full_name = full_name;
+		volunteer.phone = phone;
+		volunteer.num_of_people = num_of_people;
+		volunteer.driver = driver;
+
+		// Handle address edit if needed
+		if (volunteer.address !== address) {
+			const { lat, lng } = await getCoordinates(address);
+			volunteer.address = address;
+			volunteer.lat = lat;
+			volunteer.lng = lng;
+		}
+
+		await volunteer.save();
+		res.json(volunteer);
 	} catch (error) {
 		next(error);
 	}

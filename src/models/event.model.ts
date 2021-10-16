@@ -15,8 +15,8 @@ const eventSchema = new mongoose.Schema(
 		category: { type: String, required: true },
 		description: { type: String, required: true },
 		date: { type: Date, required: true },
-		active: { type: Boolean, required: true },
 		secret: { type: String, required: true },
+		active: { type: Boolean, default: false },
 	},
 	{ timestamps: false, versionKey: false }
 );

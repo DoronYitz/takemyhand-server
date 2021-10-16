@@ -23,6 +23,6 @@ export const getCoordinates = async (address: string) => {
 		}
 		return { lng, lat };
 	} catch (err) {
-		console.log("error retrieving geocoded results");
+		console.log(err);
 	}
 };
