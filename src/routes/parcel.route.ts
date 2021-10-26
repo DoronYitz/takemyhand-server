@@ -5,11 +5,16 @@ import {
 	deleteParcel,
 	editParcel,
 	editParcelAddress,
+	getDriverParcels,
 	getParcel,
 	getParcels,
 } from "../controllers/parcel.controller";
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
+
+// Auth Middleware
+router.use(authMiddleware);
 
 /**
  * @route   GET api/parcel
@@ -17,6 +22,8 @@ const router = Router();
  * @access  Private
  */
 router.get("/", getParcels);
+
+router.get("/driverparcels", getDriverParcels);
 
 // @route   GET api/parcel/<id>
 // @desc    Get parcel by id

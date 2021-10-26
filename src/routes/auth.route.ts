@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { body } from "express-validator";
-import { getUser, loginUser } from "../controllers/auth.controller";
+import { getUser, login, logout, refreshToken } from "../controllers/auth.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
@@ -19,7 +19,11 @@ router.post(
 	// 	body("email", "Please include only numbers").isAlpha(),
 	// 	body("password", "Password is required").exists(),
 	// ],
-	loginUser
+	login
 );
+
+router.post("/refreshtoken", refreshToken);
+
+router.post("/logout", logout);
 
 export default router;

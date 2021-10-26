@@ -15,12 +15,12 @@ import { Server } from "socket.io";
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: "http://localhost:4200", credentials: true } });
+const io = new Server(httpServer, { cors: { origin: true, credentials: true } });
 
 // cors
 app.use(
 	cors({
-		origin: "http://localhost:4200",
+		origin: true,
 		credentials: true,
 	})
 );

@@ -15,6 +15,17 @@ export const getParcels: RequestHandler = async (req, res, next) => {
 	}
 };
 
+export const getDriverParcels: RequestHandler = async (req, res, next) => {
+	try {
+		const driver = req.user;
+		// Getting all driver's parcels
+		const driver_parcels = await Parcel.find({ volunteer: driver.userId });
+		res.json(driver_parcels);
+	} catch (error) {
+		next(error);
+	}
+};
+
 export const createParcel: RequestHandler = async (req, res, next) => {
 	try {
 		// Create document of new parcel

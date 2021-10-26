@@ -9,9 +9,12 @@ import {
 	getEvent,
 	getEvents,
 } from "../controllers/event.controller";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
 
 const router = Router();
+
+router.use(authMiddleware);
 
 // @route   GET api/event
 // @desc    Get all events

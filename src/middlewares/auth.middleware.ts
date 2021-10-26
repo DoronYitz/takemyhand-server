@@ -8,7 +8,7 @@ export const authMiddleware = authJwt({ secret: Config.JWT_SECRET, algorithms: [
 
 export const adminMiddleware: RequestHandler = (req, res, next) => {
 	try {
-		if (req.user.role !== "Admin") {
+		if (req.user.userId != "Admin") {
 			throw new CustomError(StatusCodes.FORBIDDEN, "Access forbidden");
 		}
 		next();
