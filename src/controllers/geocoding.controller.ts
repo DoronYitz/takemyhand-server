@@ -1,6 +1,13 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import { Config } from "../config";
+import CustomError from "../shared/error";
 
+/**
+ * Using google geocoding api to recive coordiantes of an address.
+ *
+ * @param {string} address address of the parcel/volunteer location
+ * @returns {lng: number, lat: number} longtitue and latitude of the location
+ */
 export const getCoordinates = async (address: string) => {
 	try {
 		const geocodingClient = new Client({});
@@ -10,19 +17,15 @@ export const getCoordinates = async (address: string) => {
 			key: Config.GEOCODE_API_KEY,
 		};
 		const response = await geocodingClient.geocode({ params: params });
-		let lat: number, lng: number;
 		if (response.data.status === "OK") {
-			lat = response.data.results[0].geometry.location.lat;
-			lng = response.data.results[0].geometry.location.lng;
-			console.log(`lat: ${lat}, lng: ${lng}`);
+			const { lng, lat } = response.data.results[0].geometry.location;
+			return { lng, lat };
+		} else if (response.data.status === "ZERO_RESULTS") {
+			const { lng, lat } = Config.DEFAULT_COORDINATE;
+			return { lng, lat };
 		}
-		if (response.data.status === "ZERO_RESULTS") {
-			lat = Config.DEFAULT_COORDINATE.lat;
-			lng = Config.DEFAULT_COORDINATE.lng;
-			console.log(`DEFAULT!!!!! lat: ${lat}, lng: ${lng}`);
-		}
-		return { lng, lat };
+		throw new CustomError(404, `Coordinates not found`);
 	} catch (err) {
-		console.log(err);
+		throw err;
 	}
 };

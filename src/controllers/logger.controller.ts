@@ -1,6 +1,9 @@
 import winston, { format } from "winston";
 import expressWinston from "express-winston";
 
+/**
+ * Creating a custom log format, eg. [21:43:16] INFO: POST /api/auth/login 400 9ms
+ */
 const LOG_FORMAT = winston.format.combine(
 	format.timestamp({ format: "HH:mm:ss" }),
 	format.splat(),
@@ -15,6 +18,9 @@ const LOG_FORMAT = winston.format.combine(
 	})
 );
 
+/**
+ * Creating express logger
+ */
 export const expressLogger = expressWinston.logger({
 	transports: [new winston.transports.Console()],
 	format: LOG_FORMAT,
