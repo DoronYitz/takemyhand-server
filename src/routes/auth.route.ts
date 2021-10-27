@@ -2,6 +2,7 @@ import { Router } from "express";
 import { body } from "express-validator";
 import { getUser, login, logout, refreshToken } from "../controllers/auth.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
+import { validation } from "../middlewares/validator.middleware";
 
 const router = Router();
 
@@ -15,10 +16,24 @@ router.get("/", authMiddleware, getUser);
 // @access  Public
 router.post(
 	"/login",
-	// [
-	// 	body("email", "Please include only numbers").isAlpha(),
-	// 	body("password", "Password is required").exists(),
-	// ],
+	[
+		body("phone")
+			.notEmpty()
+			.withMessage("Phone is required")
+			.bail()
+			.isNumeric()
+			.withMessage("Phone must contain only numbers")
+			.bail()
+			.isLength({ min: 10, max: 10 })
+			.withMessage("Invalid phone number"),
+		body("password")
+			.notEmpty()
+			.withMessage("Password is required")
+			.bail()
+			.isString()
+			.withMessage("Password must be a string"),
+	],
+	validation,
 	login
 );
 
