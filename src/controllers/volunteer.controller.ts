@@ -35,7 +35,7 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
 		// Check if volunteer already exist
 		let volunteer = await Volunteer.findOne({ phone });
 		if (volunteer) {
-			throw new CustomError(StatusCodes.BAD_REQUEST, "Volunteer already exists");
+			throw new CustomError(StatusCodes.CONFLICT, "Volunteer already exists");
 		}
 
 		// Getting lat and lng of the volunteer address
@@ -58,7 +58,7 @@ export const getVolunteer: RequestHandler = async (req, res, next) => {
 		// Finding one
 		const volunteerFound = await Volunteer.findById(id).select("-lng -lat");
 		if (!volunteerFound) {
-			throw new Error(`Volunteer Not Found`);
+			throw new CustomError(StatusCodes.NOT_FOUND, `Volunteer Not Found`);
 		}
 		req.volunteer = volunteerFound;
 		next();

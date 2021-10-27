@@ -43,12 +43,12 @@ export const createParcelsFromTextFile: RequestHandler = async (req, res, next) 
 	try {
 		const textFile: UploadedFile | any = req?.files?.textFile;
 		if (!textFile) {
-			throw new CustomError(400, `File not found`);
+			throw new CustomError(StatusCodes.BAD_REQUEST, `File not found`);
 		}
 		const fileBuffer: Buffer = textFile.data;
 		const fileData = fileBuffer.toString("utf-8");
 		if (!fileData) {
-			throw new CustomError(400, `Empty file`);
+			throw new CustomError(StatusCodes.BAD_REQUEST, `Empty file`);
 		}
 
 		const splittedAddresses = fileData.split("\r\n");
@@ -81,7 +81,7 @@ export const getParcel: RequestHandler = async (req, res, next) => {
 		// Finding one
 		const parcelFound = await Parcel.findById(id).populate("volunteer");
 		if (!parcelFound) {
-			throw new CustomError(404, `Parcel Not Found`);
+			throw new CustomError(StatusCodes.NOT_FOUND, `Parcel Not Found`);
 		}
 		req.parcel = parcelFound;
 		next();

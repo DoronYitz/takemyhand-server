@@ -30,7 +30,7 @@ export const login: RequestHandler = async (req, res, next) => {
 		let activeEvent = await Event.findOne({ active: true });
 		if (!activeEvent) {
 			throw new CustomError(
-				StatusCodes.BAD_REQUEST,
+				StatusCodes.UNAUTHORIZED,
 				"Phone and password combination is incorrect."
 			);
 		}
@@ -39,7 +39,7 @@ export const login: RequestHandler = async (req, res, next) => {
 		let volunteer = await Volunteer.findOne({ phone, driver: true });
 		if (!volunteer) {
 			throw new CustomError(
-				StatusCodes.BAD_REQUEST,
+				StatusCodes.UNAUTHORIZED,
 				"Phone and password combination is incorrect."
 			);
 		}
@@ -48,7 +48,7 @@ export const login: RequestHandler = async (req, res, next) => {
 		const isMatch = await bcrypt.compare(password, activeEvent.secret);
 		if (!isMatch) {
 			throw new CustomError(
-				StatusCodes.BAD_REQUEST,
+				StatusCodes.UNAUTHORIZED,
 				"Phone and password combination is incorrect."
 			);
 		}

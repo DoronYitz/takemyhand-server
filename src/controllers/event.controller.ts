@@ -48,7 +48,7 @@ export const getEvent: RequestHandler = async (req, res, next) => {
 		// Finding one
 		const eventFound = await Event.findById(id).select("-secret");
 		if (!eventFound) {
-			throw new CustomError(404, `Event not found`);
+			throw new CustomError(StatusCodes.NOT_FOUND, `Event not found`);
 		}
 		req.event = eventFound;
 		next();
@@ -61,7 +61,7 @@ export const getActiveEvent: RequestHandler = async (req, res, next) => {
 	try {
 		const activeEvent = await Event.findOne({ active: true }).select("-secret");
 		if (!activeEvent) {
-			throw new CustomError(404, `Active event not found`);
+			throw new CustomError(StatusCodes.NOT_FOUND, `Active event not found`);
 		}
 		res.json(activeEvent);
 	} catch (err) {
@@ -78,10 +78,7 @@ export const editEvent: RequestHandler = async (req, res, next) => {
 		if (active) {
 			const activeEvent = await Event.findOne({ active: true });
 			if (activeEvent && activeEvent.id !== event.id) {
-				throw new CustomError(
-					StatusCodes.FORBIDDEN,
-					`Only one active event is supported at a time`
-				);
+				throw new CustomError(StatusCodes.CONFLICT, `Only one active event is supported at a time`);
 			}
 		}
 		event.title = title;
