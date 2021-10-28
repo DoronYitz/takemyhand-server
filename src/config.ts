@@ -13,4 +13,14 @@ export class Config {
 		lat: +process.env.LAT,
 		lng: +process.env.LNG,
 	};
+	public static ADMINS = loadListFormEnv(process.env.ADMINS);
+}
+
+function loadListFormEnv(list: string) {
+	return list
+		? list
+				.trim()
+				.split(",")
+				.map((x) => x.trim())
+		: [];
 }

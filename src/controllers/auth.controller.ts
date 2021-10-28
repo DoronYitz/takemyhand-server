@@ -9,19 +9,6 @@ import { Volunteer } from "../models/volunteer.model";
 import { Event } from "../models/event.model";
 import { RefreshToken } from "../models/refresh-token.model";
 
-/**
- * Gets according to the token
- */
-export const getUser: RequestHandler = async (req, res, next) => {
-	try {
-		// Get the user without the password
-		const volunteer = await Volunteer.findById(req.user.userId);
-		res.json(volunteer);
-	} catch (err) {
-		next(err);
-	}
-};
-
 export const login: RequestHandler = async (req, res, next) => {
 	try {
 		const { phone, password } = req.body;
@@ -80,10 +67,6 @@ export const login: RequestHandler = async (req, res, next) => {
 export const refreshToken: RequestHandler = async (req, res, next) => {
 	try {
 		const { refreshToken: requestToken } = req.body;
-		// Check if there is requestToken
-		if (!requestToken) {
-			return res.status(403).json({ message: "Refresh Token is required!" });
-		}
 
 		let refreshToken = await RefreshToken.findOne({ token: requestToken });
 

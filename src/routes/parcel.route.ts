@@ -1,5 +1,6 @@
 import { RequestHandler, Router } from "express";
 import { param } from "express-validator";
+import { mongo } from "mongoose";
 import {
 	createParcel,
 	createParcelsFromTextFile,
@@ -12,6 +13,7 @@ import {
 } from "../controllers/parcel.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
+import { mongoIdPipe } from "../pipes/mongoid.pipe";
 
 const router = Router();
 
@@ -37,15 +39,9 @@ router.get("/driverparcels", getDriverParcels);
  * @desc    Get parcel by id
  * @access  Private
  */
-router.get(
-	"/:id",
-	[param("id", "Not a valid _id").isMongoId()],
-	validation,
-	getParcel,
-	(req: any, res: any): void => {
-		res.json(req.parcel);
-	}
-);
+router.get("/:id", mongoIdPipe, validation, getParcel, (req: any, res: any) => {
+	res.json(req.parcel);
+});
 
 /**
  * @route   POST api/parcel
@@ -54,21 +50,25 @@ router.get(
  */
 router.post("/", createParcel);
 
-// @route   POST api/parcel/textFileHandler
-// @desc    Create parcel from text file
-// @access  Private
+/**
+ * @route   POST api/parcel/textFileHandler
+ * @desc    Create parcels from text file, return array of created parcels
+ * @access  Private
+ */
 router.post("/textFileHandler", createParcelsFromTextFile);
 
 // @route   PATCH api/parcel/<id>
 // @desc    Edit parcel
 // @access  Private
-router.patch("/:id", getParcel, editParcel);
+router.patch("/:id", mongoIdPipe, validation, getParcel, editParcel);
 
-router.patch("/address/:id", getParcel, editParcelAddress);
+router.patch("/address/:id", mongoIdPipe, validation, getParcel, editParcelAddress);
 
-// @route   DELETE api/parcel/<id>
-// @desc    Delete parcel
-// @access  Admin
-router.delete("/:id", getParcel, deleteParcel);
+/**
+ * @route   DELETE api/parcel/<id>
+ * @desc    Delete parcel
+ * @access  Admin
+ */
+router.delete("/:id", mongoIdPipe, validation, getParcel, deleteParcel);
 
 export default router;
