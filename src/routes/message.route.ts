@@ -1,10 +1,14 @@
 import { Router } from "express";
 import { getMessages } from "../controllers/message.controller";
-import { authMiddleware } from "../middlewares/auth.middleware";
+import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
 
+/**
+ * Only Admins
+ */
 router.use(authMiddleware);
+router.use(adminMiddleware);
 
 /**
  * @route   GET api/messages

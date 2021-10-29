@@ -44,7 +44,7 @@ router.post("/", createVolunteerPipe, validation, createVolunteer);
 /**
  * @route   PATCH api/volunteer/<id>
  * @desc    Edit volunteer, return volunteer that was editted
- * @access  Private
+ * @access  Admin
  */
 router.patch("/:id", mongoIdPipe, validation, getVolunteer, editVolunteer);
 

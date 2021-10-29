@@ -9,21 +9,25 @@ import {
 	getEvent,
 	getEvents,
 } from "../controllers/event.controller";
-import { authMiddleware } from "../middlewares/auth.middleware";
+import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
 import { createEventPipe } from "../pipes/event.pipe";
 import { mongoIdPipe } from "../pipes/mongoid.pipe";
 
 const router = Router();
 
-router.use(authMiddleware);
-
 /**
  * @route   GET api/event
  * @desc    Get all events
- * @access  Admin
+ * @access  Public
  */
 router.get("/", getEvents);
+
+/**
+ * Only Admins
+ */
+router.use(authMiddleware);
+router.use(adminMiddleware);
 
 /**
  * @route   GET api/event/active

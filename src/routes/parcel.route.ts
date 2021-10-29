@@ -1,6 +1,4 @@
-import { RequestHandler, Router } from "express";
-import { param } from "express-validator";
-import { mongo } from "mongoose";
+import { Router } from "express";
 import {
 	createParcel,
 	createParcelsFromTextFile,

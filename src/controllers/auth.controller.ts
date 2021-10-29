@@ -47,7 +47,10 @@ export const login: RequestHandler = async (req, res, next) => {
 		const token = jwt.sign(payload, Config.JWT_SECRET, { expiresIn: Config.JWT_EXPERATION });
 		const refreshToken = await RefreshToken.createToken(volunteer);
 
-		let authorities: Array<string> = ["driver", "admin"];
+		let authorities: Array<string> = ["driver"];
+		if (Config.ADMINS.includes(volunteer.phone)) {
+			authorities.push("admin");
+		}
 
 		res.status(200).json({
 			id: volunteer._id,
