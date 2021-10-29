@@ -4,6 +4,7 @@ import parcelRouter from "./routes/parcel.route";
 import volunteerRouter from "./routes/volunteer.route";
 import authRouter from "./routes/auth.route";
 import eventsRouter from "./routes/event.route";
+import messageRouter from "./routes/message.route";
 import { Config } from "./config";
 import { connectToDB } from "./shared/database";
 import { errorMiddleware } from "./middlewares/error.middleware";
@@ -15,7 +16,7 @@ import { Server } from "socket.io";
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer, { cors: { origin: true, credentials: true } });
+export const io = new Server(httpServer, { cors: { origin: true, credentials: true } });
 
 // cors
 app.use(
@@ -43,13 +44,9 @@ app.use("/api/auth", authRouter);
 app.use("/api/parcel", parcelRouter);
 app.use("/api/volunteer", volunteerRouter);
 app.use("/api/events", eventsRouter);
+app.use("/api/message", messageRouter);
 
 app.use(errorMiddleware);
-
-io.on("connection", (socket) => {
-	console.log("connected");
-	socket.on("message", (res) => console.log(res));
-});
 
 httpServer.listen(Config.EXPRESS_PORT, () =>
 	console.log(`Example app listening at http://localhost:${Config.EXPRESS_PORT}`)

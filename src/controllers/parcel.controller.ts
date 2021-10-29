@@ -1,6 +1,8 @@
 import { RequestHandler } from "express";
 import { UploadedFile } from "express-fileupload";
 import { StatusCodes } from "http-status-codes";
+import { io } from "..";
+import { Message } from "../models/message.model";
 import { IParcel, Parcel } from "../models/parcel.model";
 import CustomError from "../shared/error";
 import { getCoordinates } from "./geocoding.controller";
@@ -92,6 +94,17 @@ export const getParcel: RequestHandler = async (req, res, next) => {
 
 export const editParcel: RequestHandler = async (req, res, next) => {
 	try {
+		if (req.parcel.arrived !== req.body.arrived) {
+			const partialText = req.body.arrived ? `הגיעה ליעד` : `שונתה כלא הגיעה ליעד`;
+			const message = {
+				arrived: req.body.arrived,
+				content: `חבילה בעלת כתובת "${req.parcel.address}" ${partialText}`,
+				date: new Date(),
+			};
+			const newMessage = new Message(message);
+			await newMessage.save();
+			io.emit("message", message);
+		}
 		req.parcel.arrived = req.body.arrived;
 		req.parcel.volunteer = req.body.volunteer;
 		await req.parcel.save();
