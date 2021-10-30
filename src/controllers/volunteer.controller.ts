@@ -30,7 +30,7 @@ export const getDrivers: RequestHandler = async (req, res, next) => {
 export const createVolunteer: RequestHandler = async (req, res, next) => {
 	try {
 		// Create document of new volunteer
-		const { full_name, phone, num_of_people, address } = req.body;
+		const { full_name, phone, address } = req.body;
 
 		// Check if volunteer already exist
 		let volunteer = await Volunteer.findOne({ phone });
@@ -45,7 +45,6 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
 		const newVolunteer = new Volunteer({
 			full_name,
 			phone,
-			num_of_people,
 			location: { type: "Point", coordinates: coordiantes },
 			address,
 		});
@@ -80,10 +79,9 @@ export const editVolunteer: RequestHandler = async (req, res, next) => {
 		const volunteer = req.volunteer;
 
 		// Updating fields
-		const { full_name, phone, num_of_people, driver, address } = req.body;
+		const { full_name, phone, driver, address } = req.body;
 		volunteer.full_name = full_name;
 		volunteer.phone = phone;
-		volunteer.num_of_people = num_of_people;
 		volunteer.driver = driver;
 
 		// Handle address edit if needed

@@ -5,7 +5,6 @@ interface IVolunteer {
 	full_name?: string;
 	location?: { type: string; coordinates: number[] };
 	address?: string;
-	num_of_people?: number;
 	driver?: boolean;
 }
 
@@ -18,7 +17,6 @@ const volunteerSchema = new mongoose.Schema(
 			type: { type: String },
 			coordinates: [],
 		},
-		num_of_people: { type: Number, default: 1 },
 		driver: { type: Boolean, default: false },
 	},
 	{ timestamps: true, versionKey: false }
