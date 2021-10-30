@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { io } from "..";
 import { Message } from "../models/message.model";
 import { IParcel, Parcel } from "../models/parcel.model";
+import { Volunteer } from "../models/volunteer.model";
 import CustomError from "../shared/error";
 import { getCoordinates } from "./geocoding.controller";
 
@@ -148,5 +149,38 @@ export const deleteParcel: RequestHandler = async (req, res, next) => {
 		res.json({ message: "Parcel Deleted" });
 	} catch (error) {
 		next(error);
+	}
+};
+
+export const setParcelsDriversByLocation: RequestHandler = async (req, res, next) => {
+	try {
+		const parcels = await Parcel.find();
+		if (!parcels.length) {
+			throw new CustomError(404, "Parcels not found");
+		}
+
+		// For each parcel, find its closest driver
+		for (let parcel of parcels) {
+			const [lng, lat] = parcel.location.coordinates;
+			const nearestDriver = await Volunteer.findOne({
+				driver: true,
+				location: {
+					$near: {
+						$geometry: {
+							type: "Point",
+							coordinates: [lng, lat],
+						},
+					},
+				},
+			});
+			if (!nearestDriver) {
+				throw new CustomError(404, "Drivers not found");
+			}
+			parcel.volunteer = nearestDriver;
+			await parcel.save();
+		}
+		res.json(parcels);
+	} catch (err) {
+		next(err);
 	}
 };

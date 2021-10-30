@@ -8,6 +8,7 @@ import {
 	getDriverParcels,
 	getParcel,
 	getParcels,
+	setParcelsDriversByLocation,
 } from "../controllers/parcel.controller";
 import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
@@ -64,6 +65,13 @@ router.post("/", createParcel);
  * @access  Admin
  */
 router.post("/textFileHandler", createParcelsFromTextFile);
+
+/**
+ * @route   PATCH api/parcel/setdrivers
+ * @desc    Split parcels between all drivers by location
+ * @access  Admin
+ */
+router.patch("/setdrivers", setParcelsDriversByLocation);
 
 /**
  * @route   PATCH api/parcel/<id>
