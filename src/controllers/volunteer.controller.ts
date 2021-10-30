@@ -8,7 +8,7 @@ import { getCoordinates } from "./geocoding.controller";
 export const getVolunteers: RequestHandler = async (req, res, next) => {
 	try {
 		// Getting all volunteers
-		const volunteers = await Volunteer.find().select("-lng -lat");
+		const volunteers = await Volunteer.find().select("-location");
 		res.json(volunteers);
 	} catch (error) {
 		next(error);
@@ -19,7 +19,7 @@ export const getVolunteers: RequestHandler = async (req, res, next) => {
 export const getDrivers: RequestHandler = async (req, res, next) => {
 	try {
 		// Getting all drivers
-		const drivers = await Volunteer.find({ driver: true }).select("-lng -lat");
+		const drivers = await Volunteer.find({ driver: true }).select("-location");
 		res.json(drivers);
 	} catch (error) {
 		next(error);
@@ -39,10 +39,16 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
 		}
 
 		// Getting lat and lng of the volunteer address
-		const { lat, lng } = await getCoordinates(address);
+		const coordiantes = await getCoordinates(address);
 
 		// Create a new volunteer in db
-		const newVolunteer = new Volunteer({ full_name, phone, num_of_people, lat, lng, address });
+		const newVolunteer = new Volunteer({
+			full_name,
+			phone,
+			num_of_people,
+			location: { type: "Point", coordinates: coordiantes },
+			address,
+		});
 		await newVolunteer.save();
 		res.status(StatusCodes.CREATED).json(newVolunteer);
 	} catch (error) {
@@ -56,7 +62,7 @@ export const getVolunteer: RequestHandler = async (req, res, next) => {
 		// Getting id from params
 		const id = req.params.id;
 		// Finding one
-		const volunteerFound = await Volunteer.findById(id).select("-lng -lat");
+		const volunteerFound = await Volunteer.findById(id).select("-location");
 		if (!volunteerFound) {
 			throw new CustomError(StatusCodes.NOT_FOUND, `Volunteer Not Found`);
 		}
@@ -82,10 +88,9 @@ export const editVolunteer: RequestHandler = async (req, res, next) => {
 
 		// Handle address edit if needed
 		if (volunteer.address !== address) {
-			const { lat, lng } = await getCoordinates(address);
+			const coordiantes = await getCoordinates(address);
 			volunteer.address = address;
-			volunteer.lat = lat;
-			volunteer.lng = lng;
+			volunteer.location = { type: "Point", coordinates: coordiantes };
 		}
 
 		await volunteer.save();

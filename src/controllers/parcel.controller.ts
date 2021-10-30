@@ -11,6 +11,16 @@ export const getParcels: RequestHandler = async (req, res, next) => {
 	try {
 		// Getting all parcels
 		const parcels = await Parcel.find().populate("volunteer");
+		// const nearParcel = await Parcel.findOne({
+		// 	location: {
+		// 		$near: {
+		// 			$geometry: {
+		// 				type: "Point",
+		// 				coordinates: [34.9523374, 32.4149146],
+		// 			},
+		// 		},
+		// 	},
+		// });
 		res.json(parcels);
 	} catch (error) {
 		next(error);
@@ -32,8 +42,11 @@ export const createParcel: RequestHandler = async (req, res, next) => {
 	try {
 		// Create document of new parcel
 		const { address } = req.body;
-		const { lng, lat } = await getCoordinates(address);
-		const newParcel = new Parcel({ address, lat, lng });
+		const coordiantes = await getCoordinates(address);
+		const newParcel = new Parcel({
+			address,
+			location: { type: "Point", coordinates: coordiantes },
+		});
 		await newParcel.save();
 		res.status(StatusCodes.CREATED).json(newParcel);
 	} catch (error) {
@@ -63,9 +76,8 @@ export const createParcelsFromTextFile: RequestHandler = async (req, res, next) 
 			});
 
 		for (let parcel of parcels) {
-			const { lat, lng } = await getCoordinates(parcel.address);
-			parcel.lat = lat;
-			parcel.lng = lng;
+			const coordinates = await getCoordinates(parcel.address);
+			parcel.location = { type: "Point", coordinates };
 		}
 		console.log(parcels);
 
@@ -92,7 +104,7 @@ export const getParcel: RequestHandler = async (req, res, next) => {
 	}
 };
 
-export const editParcel: RequestHandler = async (req, res, next) => {
+export const editParcelStatus: RequestHandler = async (req, res, next) => {
 	try {
 		if (req.parcel.arrived !== req.body.arrived) {
 			const partialText = req.body.arrived ? `הגיעה ליעד` : `שונתה כלא הגיעה ליעד`;
@@ -106,7 +118,6 @@ export const editParcel: RequestHandler = async (req, res, next) => {
 			io.emit("message", message);
 		}
 		req.parcel.arrived = req.body.arrived;
-		req.parcel.volunteer = req.body.volunteer;
 		await req.parcel.save();
 		res.json(req.parcel);
 	} catch (error) {
@@ -114,13 +125,16 @@ export const editParcel: RequestHandler = async (req, res, next) => {
 	}
 };
 
-export const editParcelAddress: RequestHandler = async (req, res, next) => {
+export const editParcel: RequestHandler = async (req, res, next) => {
 	try {
+		req.parcel.volunteer = req.body.volunteer;
 		const { address } = req.body;
-		const { lng, lat } = await getCoordinates(req.parcel.address);
-		req.parcel.lng = lng;
-		req.parcel.lat = lat;
-		req.parcel.address = address;
+		// If address was changed
+		if (address !== req.parcel.address) {
+			const coordinates = await getCoordinates(address);
+			req.parcel.location = { type: "Point", coordinates };
+			req.parcel.address = address;
+		}
 		await req.parcel.save();
 		res.json(req.parcel);
 	} catch (err) {

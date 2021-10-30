@@ -5,8 +5,8 @@ export const createVolunteerPipe = [
 		.notEmpty()
 		.withMessage("full_name is required")
 		.bail()
-		.isAlpha()
-		.withMessage("full_name can only have letters"),
+		.matches("^[a-zA-Z\u0590-\u05FF\u200f\u200e ]+$")
+		.withMessage("full_name can only have letters and space"),
 	body("phone")
 		.notEmpty()
 		.withMessage("phone is required")

@@ -7,11 +7,25 @@ import {
 	getVolunteer,
 	getVolunteers,
 } from "../controllers/volunteer.controller";
+import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
 import { mongoIdPipe } from "../pipes/mongoid.pipe";
 import { createVolunteerPipe } from "../pipes/volunteer.pipe";
 
 const router = Router();
+
+/**
+ * @route   POST api/volunteer/
+ * @desc    Create volunteer, return volunteer that was created
+ * @access  Public
+ */
+router.post("/", createVolunteerPipe, validation, createVolunteer);
+
+/**
+ * Only admins
+ */
+router.use(authMiddleware);
+router.use(adminMiddleware);
 
 /**
  * @route   GET api/volunteer
@@ -20,9 +34,11 @@ const router = Router();
  */
 router.get("/", getVolunteers);
 
-// @route   GET api/volunteer/drivers
-// @desc    Get all volunteers
-// @access  Admin
+/**
+ * @route   GET api/volunteer/drivers
+ * @desc    Get all volunteers
+ * @access  Admin
+ */
 router.get("/drivers", getDrivers);
 
 /**
@@ -33,13 +49,6 @@ router.get("/drivers", getDrivers);
 router.get("/:id", mongoIdPipe, validation, getVolunteer, (req: any, res: any) =>
 	res.json(req.volunteer)
 );
-
-/**
- * @route   POST api/volunteer/
- * @desc    Create volunteer, return volunteer that was created
- * @access  Public
- */
-router.post("/", createVolunteerPipe, validation, createVolunteer);
 
 /**
  * @route   PATCH api/volunteer/<id>
