@@ -3,6 +3,9 @@ import { StatusCodes } from "http-status-codes";
 import { Event, IEvent } from "../models/event.model";
 import CustomError from "../shared/error";
 import bcrypt from "bcryptjs";
+import { Volunteer } from "../models/volunteer.model";
+import { Parcel } from "../models/parcel.model";
+import { Config } from "../config";
 
 export const getEvents: RequestHandler = async (req, res, next) => {
 	try {
@@ -117,5 +120,21 @@ export const deleteEvent: RequestHandler = async (req, res, next) => {
 		res.json({ message: "Event Deleted" });
 	} catch (error) {
 		next(error);
+	}
+};
+
+export const deleteEventData: RequestHandler = async (req, res, next) => {
+	try {
+		const volunteers = await Volunteer.find();
+		for (const volunteer of volunteers) {
+			if (Config.ADMINS.includes(volunteer.phone)) {
+				continue;
+			}
+			await volunteer.remove();
+		}
+		await Parcel.deleteMany();
+		res.json({ message: "Data Deleted" });
+	} catch (err) {
+		next(err);
 	}
 };

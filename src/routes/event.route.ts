@@ -3,6 +3,7 @@ import { Router } from "express";
 import {
 	createEvent,
 	deleteEvent,
+	deleteEventData,
 	editEvent,
 	editEventSecret,
 	getActiveEvent,
@@ -56,6 +57,13 @@ router.patch("/:id", mongoIdPipe, validation, getEvent, editEvent);
  * @access Admin
  */
 router.patch("/secret/:id", mongoIdPipe, getEvent, editEventSecret);
+
+/**
+ * @route   DELETE api/event/data
+ * @desc    Delete event data
+ * @access  Admin
+ */
+router.delete("/:id", mongoIdPipe, deleteEventData);
 
 /**
  * @route   DELETE api/event/<id>
