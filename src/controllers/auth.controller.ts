@@ -13,18 +13,24 @@ export const login: RequestHandler = async (req, res, next) => {
 	try {
 		const { phone, password } = req.body;
 
-		// Get active event secret
-		let activeEvent = await Event.findOne({ active: true });
-		if (!activeEvent) {
+		// Handle admin auth
+		const isAdminPhone: boolean = Config.ADMINS.includes(phone);
+		if (isAdminPhone && (await bcrypt.compare(password, Config.PASSWORD))) {
+			return adminLogin(req, res, next);
+		}
+
+		// Check if phone exist on any volunteer driver
+		let driver = await Volunteer.findOne({ phone, driver: true });
+		if (!driver) {
 			throw new CustomError(
 				StatusCodes.UNAUTHORIZED,
 				"Phone and password combination is incorrect."
 			);
 		}
 
-		// Check if phone exist on any volunteer driver
-		let volunteer = await Volunteer.findOne({ phone, driver: true });
-		if (!volunteer) {
+		// Get active event secret
+		let activeEvent = await Event.findOne({ active: true });
+		if (!activeEvent) {
 			throw new CustomError(
 				StatusCodes.UNAUTHORIZED,
 				"Phone and password combination is incorrect."
@@ -42,19 +48,16 @@ export const login: RequestHandler = async (req, res, next) => {
 
 		// Return JWT token
 		const payload: Payload = {
-			userId: volunteer.id,
+			userId: driver.id,
 		};
 		const token = jwt.sign(payload, Config.JWT_SECRET, { expiresIn: Config.JWT_EXPERATION });
-		const refreshToken = await RefreshToken.createToken(volunteer);
+		const refreshToken = await RefreshToken.createToken(driver);
 
 		let authorities: Array<string> = ["driver"];
-		if (Config.ADMINS.includes(volunteer.phone)) {
-			authorities.push("admin");
-		}
 
 		res.status(200).json({
-			id: volunteer._id,
-			username: volunteer.full_name,
+			id: driver._id,
+			username: driver.full_name,
 			roles: authorities,
 			accessToken: token,
 			refreshToken: refreshToken,
@@ -125,6 +128,39 @@ export const logout: RequestHandler = async (req, res, next) => {
 
 		// return access token and refresh token
 		return res.status(200).json({ message: "Deleted" });
+	} catch (err) {
+		next(err);
+	}
+};
+
+const adminLogin: RequestHandler = async (req, res, next) => {
+	try {
+		// Check if phone exist on any volunteer
+		const { phone } = req.body;
+		let volunteer = await Volunteer.findOne({ phone });
+		if (!volunteer) {
+			throw new CustomError(
+				StatusCodes.UNAUTHORIZED,
+				"Phone and password combination is incorrect."
+			);
+		}
+
+		// Return JWT token
+		const payload: Payload = {
+			userId: volunteer.id,
+		};
+		const token = jwt.sign(payload, Config.JWT_SECRET, { expiresIn: Config.JWT_EXPERATION });
+		const refreshToken = await RefreshToken.createToken(volunteer);
+
+		let authorities: Array<string> = ["driver", "admin"];
+
+		res.status(200).json({
+			id: volunteer._id,
+			username: volunteer.full_name,
+			roles: authorities,
+			accessToken: token,
+			refreshToken: refreshToken,
+		});
 	} catch (err) {
 		next(err);
 	}

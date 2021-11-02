@@ -14,6 +14,7 @@ export class Config {
 		lng: +process.env.LNG,
 	};
 	public static ADMINS = loadListFormEnv(process.env.ADMINS);
+	public static PASSWORD = process.env.PASSWORD;
 }
 
 function loadListFormEnv(list: string) {
