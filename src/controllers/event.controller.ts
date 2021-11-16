@@ -81,7 +81,7 @@ export const editEvent: RequestHandler = async (req, res, next) => {
 		if (active) {
 			const activeEvent = await Event.findOne({ active: true });
 			if (activeEvent && activeEvent.id !== event.id) {
-				throw new CustomError(StatusCodes.CONFLICT, `Only one active event is supported at a time`);
+				throw new CustomError(StatusCodes.CONFLICT, `רק אירוע אחד יכול להיות אקטיבי בכל עת`);
 			}
 		}
 		event.title = title;

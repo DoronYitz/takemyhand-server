@@ -156,7 +156,7 @@ export const setParcelsDriversByLocation: RequestHandler = async (req, res, next
 	try {
 		const parcels = await Parcel.find();
 		if (!parcels.length) {
-			throw new CustomError(404, "Parcels not found");
+			throw new CustomError(404, "אין חבילות לחלק");
 		}
 
 		// For each parcel, find its closest driver
@@ -174,7 +174,7 @@ export const setParcelsDriversByLocation: RequestHandler = async (req, res, next
 				},
 			});
 			if (!nearestDriver) {
-				throw new CustomError(404, "Drivers not found");
+				throw new CustomError(404, "אין נהגים במערכת");
 			}
 			parcel.volunteer = nearestDriver;
 			await parcel.save();

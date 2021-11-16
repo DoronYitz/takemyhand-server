@@ -35,7 +35,7 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
 		// Check if volunteer already exist
 		let volunteer = await Volunteer.findOne({ phone });
 		if (volunteer) {
-			throw new CustomError(StatusCodes.CONFLICT, "Volunteer already exists");
+			throw new CustomError(StatusCodes.CONFLICT, "המתנדב קיים במערכת");
 		}
 
 		// Getting lat and lng of the volunteer address

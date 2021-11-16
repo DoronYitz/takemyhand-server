@@ -24,7 +24,7 @@ export const login: RequestHandler = async (req, res, next) => {
 		if (!driver) {
 			throw new CustomError(
 				StatusCodes.UNAUTHORIZED,
-				"Phone and password combination is incorrect."
+				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
 			);
 		}
 
@@ -33,7 +33,7 @@ export const login: RequestHandler = async (req, res, next) => {
 		if (!activeEvent) {
 			throw new CustomError(
 				StatusCodes.UNAUTHORIZED,
-				"Phone and password combination is incorrect."
+				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
 			);
 		}
 
@@ -42,7 +42,7 @@ export const login: RequestHandler = async (req, res, next) => {
 		if (!isMatch) {
 			throw new CustomError(
 				StatusCodes.UNAUTHORIZED,
-				"Phone and password combination is incorrect."
+				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
 			);
 		}
 
@@ -141,7 +141,7 @@ const adminLogin: RequestHandler = async (req, res, next) => {
 		if (!volunteer) {
 			throw new CustomError(
 				StatusCodes.UNAUTHORIZED,
-				"Phone and password combination is incorrect."
+				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
 			);
 		}
 
