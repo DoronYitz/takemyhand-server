@@ -1,4 +1,4 @@
-import mongoose, { model, Document } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
 interface IEvent {
 	title?: string;
@@ -9,7 +9,7 @@ interface IEvent {
 	secret?: string;
 }
 
-const eventSchema = new mongoose.Schema(
+const eventSchema = new Schema(
 	{
 		title: { type: String, required: true },
 		category: { type: String, required: true },

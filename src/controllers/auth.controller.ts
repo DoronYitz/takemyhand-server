@@ -1,10 +1,12 @@
+import { Config } from "../config";
+
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { StatusCodes } from "http-status-codes";
 import { RequestHandler } from "express";
+
 import { Payload } from "../models/payload.model";
 import CustomError from "../shared/error";
-import { StatusCodes } from "http-status-codes";
-import { Config } from "../config";
 import { Volunteer } from "../models/volunteer.model";
 import { Event } from "../models/event.model";
 import { RefreshToken } from "../models/refresh-token.model";
@@ -22,28 +24,19 @@ export const login: RequestHandler = async (req, res, next) => {
 		// Check if phone exist on any volunteer driver
 		let driver = await Volunteer.findOne({ phone, driver: true });
 		if (!driver) {
-			throw new CustomError(
-				StatusCodes.UNAUTHORIZED,
-				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
-			);
+			throw new CustomError(StatusCodes.UNAUTHORIZED, "קומבינציית מס' הפלאפון והסיסמא איננה נכונה");
 		}
 
 		// Get active event secret
 		let activeEvent = await Event.findOne({ active: true });
 		if (!activeEvent) {
-			throw new CustomError(
-				StatusCodes.UNAUTHORIZED,
-				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
-			);
+			throw new CustomError(StatusCodes.UNAUTHORIZED, "קומבינציית מס' הפלאפון והסיסמא איננה נכונה");
 		}
 
 		// Verify the password
 		const isMatch = await bcrypt.compare(password, activeEvent.secret);
 		if (!isMatch) {
-			throw new CustomError(
-				StatusCodes.UNAUTHORIZED,
-				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
-			);
+			throw new CustomError(StatusCodes.UNAUTHORIZED, "קומבינציית מס' הפלאפון והסיסמא איננה נכונה");
 		}
 
 		// Return JWT token
@@ -139,10 +132,7 @@ const adminLogin: RequestHandler = async (req, res, next) => {
 		const { phone } = req.body;
 		let volunteer = await Volunteer.findOne({ phone });
 		if (!volunteer) {
-			throw new CustomError(
-				StatusCodes.UNAUTHORIZED,
-				"קומבינציית מס' הפלאפון והסיסמא איננה נכונה"
-			);
+			throw new CustomError(StatusCodes.UNAUTHORIZED, "קומבינציית מס' הפלאפון והסיסמא איננה נכונה");
 		}
 
 		// Return JWT token

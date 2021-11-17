@@ -1,5 +1,7 @@
-import { Client } from "@googlemaps/google-maps-services-js";
 import { Config } from "../config";
+
+import { Client } from "@googlemaps/google-maps-services-js";
+
 import CustomError from "../shared/error";
 
 /**

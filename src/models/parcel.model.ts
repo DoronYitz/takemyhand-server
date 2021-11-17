@@ -1,4 +1,4 @@
-import mongoose, { model, Schema, Document } from "mongoose";
+import { model, Schema, Document } from "mongoose";
 
 interface IParcel {
 	address?: string;
@@ -7,7 +7,7 @@ interface IParcel {
 	volunteer?: any;
 }
 
-const parcelSchema = new mongoose.Schema(
+const parcelSchema = new Schema(
 	{
 		address: { type: String, required: true },
 		location: {

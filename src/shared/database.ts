@@ -1,5 +1,6 @@
-import mongoose from "mongoose";
 import { Config } from "../config";
+
+import mongoose from "mongoose";
 
 /**
  * Connect to database

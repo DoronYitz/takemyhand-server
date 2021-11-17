@@ -1,4 +1,4 @@
-import mongoose, { model, Document } from "mongoose";
+import { model, Schema, Document } from "mongoose";
 
 interface IVolunteer {
 	phone?: string;
@@ -8,7 +8,7 @@ interface IVolunteer {
 	driver?: boolean;
 }
 
-const volunteerSchema = new mongoose.Schema(
+const volunteerSchema = new Schema(
 	{
 		phone: { type: String, required: true },
 		full_name: { type: String, required: true },

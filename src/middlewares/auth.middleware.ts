@@ -1,7 +1,9 @@
+import { Config } from "../config";
+
 import { RequestHandler } from "express";
 import authJwt from "express-jwt";
 import { StatusCodes } from "http-status-codes";
-import { Config } from "../config";
+
 import { Volunteer } from "../models/volunteer.model";
 import CustomError from "../shared/error";
 

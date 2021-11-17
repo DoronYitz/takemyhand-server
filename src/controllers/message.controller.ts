@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+
 import { Message } from "../models/message.model";
 
 export const getMessages: RequestHandler = async (req, res, next) => {

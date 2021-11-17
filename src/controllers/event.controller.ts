@@ -1,11 +1,13 @@
+import { Config } from "../config";
+
 import { RequestHandler } from "express";
 import { StatusCodes } from "http-status-codes";
+import bcrypt from "bcryptjs";
+
 import { Event, IEvent } from "../models/event.model";
 import CustomError from "../shared/error";
-import bcrypt from "bcryptjs";
 import { Volunteer } from "../models/volunteer.model";
 import { Parcel } from "../models/parcel.model";
-import { Config } from "../config";
 
 export const getEvents: RequestHandler = async (req, res, next) => {
 	try {

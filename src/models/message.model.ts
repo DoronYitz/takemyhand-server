@@ -1,4 +1,4 @@
-import mongoose, { model, Document } from "mongoose";
+import { Schema, model, Document } from "mongoose";
 
 interface IMessage {
 	arrived?: boolean;
@@ -6,7 +6,7 @@ interface IMessage {
 	date?: Date;
 }
 
-const messageSchema = new mongoose.Schema(
+const messageSchema = new Schema(
 	{
 		arrived: { type: Boolean, required: true },
 		content: { type: String, required: true },

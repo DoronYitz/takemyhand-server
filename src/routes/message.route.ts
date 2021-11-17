@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import { getMessages } from "../controllers/message.controller";
 import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 
