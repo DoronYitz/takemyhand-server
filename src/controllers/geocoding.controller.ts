@@ -26,6 +26,7 @@ export const getCoordinates = async (address: string) => {
 		}
 		throw new CustomError(404, `Coordinates not found`);
 	} catch (err) {
+		console.log(err);
 		throw err;
 	}
 };

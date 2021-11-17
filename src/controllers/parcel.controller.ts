@@ -12,16 +12,6 @@ export const getParcels: RequestHandler = async (req, res, next) => {
 	try {
 		// Getting all parcels
 		const parcels = await Parcel.find().populate("volunteer");
-		// const nearParcel = await Parcel.findOne({
-		// 	location: {
-		// 		$near: {
-		// 			$geometry: {
-		// 				type: "Point",
-		// 				coordinates: [34.9523374, 32.4149146],
-		// 			},
-		// 		},
-		// 	},
-		// });
 		res.json(parcels);
 	} catch (error) {
 		next(error);
