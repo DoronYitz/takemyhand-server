@@ -50,10 +50,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run prettier:write"
     }
-  },
-  "lint-staged": {
-    "*.{json,yaml,js,ts}": "npm run prettier:write"
   }
 }
