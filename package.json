@@ -55,6 +55,6 @@
     }
   },
   "lint-staged": {
-    "*.{json,yaml,js,ts}": "prettier --write"
+    "*.{json,yaml,js,ts}": "npm run prettier:write"
   }
 }
