@@ -1,44 +1,60 @@
 {
-	"name": "takemyhand_server",
-	"version": "1.0.0",
-	"description": "",
-	"main": "dist/index.js",
-	"scripts": {
-		"tsc": "tsc",
-		"dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
-		"start": "tsc && node ./dist/index.js"
-	},
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"@googlemaps/google-maps-services-js": "^3.2.6",
-		"bcryptjs": "^2.4.3",
-		"cors": "^2.8.5",
-		"dotenv": "^10.0.0",
-		"express": "^4.17.1",
-		"express-fileupload": "^1.2.1",
-		"express-jwt": "^6.1.0",
-		"express-validator": "^6.12.1",
-		"express-winston": "^4.2.0",
-		"http-status-codes": "^2.1.4",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^6.0.6",
-		"socket.io": "^4.0.2",
-		"ts-node": "^10.2.1",
-		"typescript": "^4.4.3",
-		"uuid": "^8.3.2",
-		"winston": "^3.3.3",
-		"winston-daily-rotate-file": "^4.5.5"
-	},
-	"devDependencies": {
-		"@types/bcryptjs": "^2.4.2",
-		"@types/cors": "^2.8.12",
-		"@types/express": "^4.17.13",
-		"@types/express-fileupload": "^1.1.7",
-		"@types/express-jwt": "^6.0.2",
-		"@types/jsonwebtoken": "^8.5.5",
-		"@types/node": "^16.9.4",
-		"@types/uuid": "^8.3.1",
-		"ts-node-dev": "^1.1.8"
-	}
+  "name": "takemyhand_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "prettier:write": "prettier --write \"./**/*.{js,ts}\"",
+    "prettier:check": "prettier --list-different \"./**/*.{js,ts}\"",
+    "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
+    "start": "node ./dist/index.js",
+    "gcp-build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.2.6",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "express-jwt": "^6.1.0",
+    "express-validator": "^6.12.1",
+    "express-winston": "^4.2.0",
+    "http-status-codes": "^2.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.6",
+    "socket.io": "^4.0.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3",
+    "uuid": "^8.3.2",
+    "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/express-fileupload": "^1.1.7",
+    "@types/express-jwt": "^6.0.2",
+    "@types/jsonwebtoken": "^8.5.5",
+    "@types/node": "^16.9.4",
+    "@types/uuid": "^8.3.1",
+    "@typescript-eslint/eslint-plugin": "^5.12.1",
+    "@typescript-eslint/parser": "^5.12.1",
+    "eslint": "^8.9.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.4",
+    "prettier": "^2.5.1",
+    "ts-node-dev": "^1.1.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{json,yaml,js,ts}": "prettier --write"
+  }
 }

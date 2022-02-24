@@ -1,15 +1,15 @@
 import { Router } from "express";
 
 import {
-	createParcel,
-	createParcelsFromTextFile,
-	deleteParcel,
-	editParcel,
-	editParcelStatus,
-	getDriverParcels,
-	getParcel,
-	getParcels,
-	setParcelsDriversByLocation,
+  createParcel,
+  createParcelsFromTextFile,
+  deleteParcel,
+  editParcel,
+  editParcelStatus,
+  getDriverParcels,
+  getParcel,
+  getParcels,
+  setParcelsDriversByLocation,
 } from "../controllers/parcel.controller";
 import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
@@ -50,7 +50,7 @@ router.get("/", getParcels);
  * @access  Admin
  */
 router.get("/:id", mongoIdPipe, validation, getParcel, (req: any, res: any) => {
-	res.json(req.parcel);
+  res.json(req.parcel);
 });
 
 /**

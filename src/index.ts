@@ -1,5 +1,3 @@
-import { Config } from "./config";
-
 import express from "express";
 import cors from "cors";
 import fileUpload from "express-fileupload";
@@ -21,10 +19,10 @@ export const io = new Server(httpServer, { cors: { origin: true, credentials: tr
 
 // cors
 app.use(
-	cors({
-		origin: true,
-		credentials: true,
-	})
+  cors({
+    origin: true,
+    credentials: true,
+  }),
 );
 
 // body-parser
@@ -50,8 +48,7 @@ app.use("/api/message", messageRouter);
 // Error middleware
 app.use(errorMiddleware);
 
-httpServer.listen(Config.EXPRESS_PORT, () =>
-	console.log(`Example app listening at http://localhost:${Config.EXPRESS_PORT}`)
-);
+const port = process.env.PORT || 8081;
+httpServer.listen(port, () => console.log(`Example app listening at port ${port}`));
 
 connectToDB();

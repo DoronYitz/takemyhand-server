@@ -1,14 +1,14 @@
 import { Router } from "express";
 
 import {
-	createEvent,
-	deleteEvent,
-	deleteEventData,
-	editEvent,
-	editEventSecret,
-	getActiveEvent,
-	getEvent,
-	getEvents,
+  createEvent,
+  deleteEvent,
+  deleteEventData,
+  editEvent,
+  editEventSecret,
+  getActiveEvent,
+  getEvent,
+  getEvents,
 } from "../controllers/event.controller";
 import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
@@ -52,8 +52,8 @@ router.post("/", createEventPipe, validation, createEvent);
 router.patch("/:id", mongoIdPipe, validation, getEvent, editEvent);
 
 /**
- * @route PATCH api/event/secret/<id>
- * @desc Edit event's secret key, return event that was editted - secret is omitted
+ * @route  PATCH api/event/secret/<id>
+ * @desc   Edit event's secret key, return event that was editted - secret is omitted
  * @access Admin
  */
 router.patch("/secret/:id", mongoIdPipe, getEvent, editEventSecret);

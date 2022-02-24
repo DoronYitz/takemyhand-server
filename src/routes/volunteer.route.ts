@@ -1,12 +1,12 @@
 import { Router } from "express";
 
 import {
-	createVolunteer,
-	deleteVolunteer,
-	editVolunteer,
-	getDrivers,
-	getVolunteer,
-	getVolunteers,
+  createVolunteer,
+  deleteVolunteer,
+  editVolunteer,
+  getDrivers,
+  getVolunteer,
+  getVolunteers,
 } from "../controllers/volunteer.controller";
 import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
@@ -48,7 +48,7 @@ router.get("/drivers", getDrivers);
  * @access  Admin
  */
 router.get("/:id", mongoIdPipe, validation, getVolunteer, (req: any, res: any) =>
-	res.json(req.volunteer)
+  res.json(req.volunteer),
 );
 
 /**
