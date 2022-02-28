@@ -8,6 +8,7 @@
     "prettier:check": "prettier --list-different \"./**/*.{js,ts}\"",
     "dev": "ts-node-dev --respawn --transpile-only ./src/index.ts",
     "start": "node ./dist/index.js",
+    "prepare": "husky install",
     "gcp-build": "tsc"
   },
   "author": "",
@@ -45,12 +46,16 @@
     "@typescript-eslint/parser": "^5.12.1",
     "eslint": "^8.9.0",
     "husky": "^7.0.4",
+    "lint-staged": "^12.3.4",
     "prettier": "^2.5.1",
     "ts-node-dev": "^1.1.8"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run prettier:write"
+      "pre-commit": "lint-staged && npm test"
     }
+  },
+  "lint-staged": {
+    "*.{json,yaml,js,ts}": "prettier --write"
   }
 }

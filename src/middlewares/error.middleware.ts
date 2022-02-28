@@ -1,13 +1,5 @@
 import { ErrorRequestHandler } from "express";
 
-
-
-
-
-
-
-
-
 /**
  * Error middleware
  */

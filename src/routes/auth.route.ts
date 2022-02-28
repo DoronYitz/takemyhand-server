@@ -6,11 +6,6 @@ import { loginPipe, refreshTokenPipe } from "../pipes/auth.pipe";
 
 const router = Router();
 
-
-
-
-
-
 /**
  * @route   POST api/auth/login
  * @desc    Login user and get token
