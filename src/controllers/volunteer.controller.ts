@@ -6,7 +6,7 @@ import CustomError from "../shared/error";
 import { getCoordinates } from "./geocoding.controller";
 
 /**
- *  Get all volunteer
+ * Get all volunteer
  */
 export const getVolunteers: RequestHandler = async (req, res, next) => {
   try {

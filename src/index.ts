@@ -18,7 +18,7 @@ const app = express();
 const httpServer = createServer(app);
 
 // Create io server on top of http server
-export const io = new Server(httpServer, { cors: { origin: true, credentials: true } });
+const io = new Server(httpServer, { cors: { origin: true, credentials: true } });
 
 // cors
 app.use(
@@ -31,6 +31,9 @@ app.use(
 // body-parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Set socket io along app
+app.set("socket", io);
 
 // Http file handler
 app.use(fileUpload());
@@ -56,6 +59,6 @@ app.use(errorMiddleware);
   await connectToDB();
 })();
 
-// Using env port or 8080
-const port = process.env.PORT || 8080;
+// Using env port or 8081
+const port = process.env.PORT || 8081;
 httpServer.listen(port, () => console.log(`Example app listening at port ${port}`));
