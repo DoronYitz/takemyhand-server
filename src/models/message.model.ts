@@ -1,9 +1,20 @@
 import { Schema, model, Document } from "mongoose";
 
 interface IMessage {
-  arrived?: boolean;
-  content?: string;
-  date?: Date;
+  /**
+   * Arrived boolean
+   * @example true,false
+   */
+  arrived: boolean;
+  /**
+   * Message content
+   * @example 'Parcel for "Herbert Samuel 55" has arrived'
+   */
+  content: string;
+  /**
+   * Message timestamp
+   */
+  date: Date;
 }
 
 const messageSchema = new Schema(

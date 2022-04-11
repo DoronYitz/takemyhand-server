@@ -1,10 +1,24 @@
 import { model, Schema, Document } from "mongoose";
 
 interface IParcel {
-  address?: string;
-  arrived?: boolean;
-  location?: { type: string; coordinates: number[] };
-  volunteer?: any;
+  /**
+   * Parcel target address
+   * @example 'Herbet Samuel 55, Tel-aviv'
+   */
+  address: string;
+  /**
+   * Is a arrived bool
+   * @example true,false
+   */
+  arrived: boolean;
+  /**
+   * Parcel location
+   */
+  location: { type: string; coordinates: number[] };
+  /**
+   * Volunteer object id
+   */
+  volunteer: any;
 }
 
 const parcelSchema = new Schema(
@@ -20,6 +34,7 @@ const parcelSchema = new Schema(
   { timestamps: true },
 );
 
+// Setting index on location as 2dsphere using Geographic queries
 parcelSchema.index({ location: "2dsphere" });
 
 const Parcel = model<IParcel & Document>("Parcel", parcelSchema);

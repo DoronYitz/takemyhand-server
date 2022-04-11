@@ -13,8 +13,11 @@ import { connectToDB } from "./shared/database";
 import { errorMiddleware } from "./middlewares/error.middleware";
 import { expressLogger } from "./controllers/logger.controller";
 
+// Intialize express server
 const app = express();
 const httpServer = createServer(app);
+
+// Create io server on top of http server
 export const io = new Server(httpServer, { cors: { origin: true, credentials: true } });
 
 // cors
@@ -48,7 +51,11 @@ app.use("/api/message", messageRouter);
 // Error middleware
 app.use(errorMiddleware);
 
-const port = process.env.PORT || 8081;
-httpServer.listen(port, () => console.log(`Example app listening at port ${port}`));
+// Connect to db
+(async () => {
+  await connectToDB();
+})();
 
-connectToDB();
+// Using env port or 8080
+const port = process.env.PORT || 8080;
+httpServer.listen(port, () => console.log(`Example app listening at port ${port}`));

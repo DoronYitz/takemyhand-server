@@ -5,18 +5,22 @@ import { Volunteer } from "../models/volunteer.model";
 import CustomError from "../shared/error";
 import { getCoordinates } from "./geocoding.controller";
 
-// Get all volunteer
+/**
+ *  Get all volunteer
+ */
 export const getVolunteers: RequestHandler = async (req, res, next) => {
   try {
-    // Getting all volunteers
+    // Getting all volunteers without location
     const volunteers = await Volunteer.find().select("-location");
-    res.json(volunteers);
+    return res.json(volunteers);
   } catch (error) {
     next(error);
   }
 };
 
-// Get all drivers
+/**
+ * Get all drivers
+ */
 export const getDrivers: RequestHandler = async (req, res, next) => {
   try {
     // Getting all drivers
@@ -27,7 +31,9 @@ export const getDrivers: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Create volunteer
+/**
+ * Create volunteer
+ */
 export const createVolunteer: RequestHandler = async (req, res, next) => {
   try {
     // Create document of new volunteer
@@ -50,13 +56,19 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
       address,
     });
     await newVolunteer.save();
-    res.status(StatusCodes.CREATED).json(newVolunteer);
+
+    // Remove its location
+    delete newVolunteer.location;
+
+    return res.status(StatusCodes.CREATED).json(newVolunteer);
   } catch (error) {
     next(error);
   }
 };
 
-// Get volunteer by id
+/**
+ * Get volunteer by id
+ */
 export const getVolunteer: RequestHandler = async (req, res, next) => {
   try {
     // Getting id from params
@@ -73,7 +85,9 @@ export const getVolunteer: RequestHandler = async (req, res, next) => {
   }
 };
 
-// Edit volunteer by id
+/**
+ * Edit volunteer by id
+ */
 export const editVolunteer: RequestHandler = async (req, res, next) => {
   try {
     // Get volunteer
@@ -93,18 +107,20 @@ export const editVolunteer: RequestHandler = async (req, res, next) => {
     }
 
     await volunteer.save();
-    res.json(volunteer);
+    return res.json(volunteer);
   } catch (error) {
     next(error);
   }
 };
 
-// Delete volunteer by id
+/**
+ * Delete volunteer by id
+ */
 export const deleteVolunteer: RequestHandler = async (req, res, next) => {
   try {
     // Delete
     await req.volunteer.delete();
-    res.json({ message: "Volunteer Deleted" });
+    return res.json({ message: "Volunteer Deleted" });
   } catch (error) {
     next(error);
   }

@@ -12,17 +12,26 @@ import CustomError from "../shared/error";
  */
 export const getCoordinates = async (address: string) => {
   try {
+    // Create a client
     const geocodingClient = new Client({});
+
+    // Set params with address country and api key
     let params = {
       address: address,
       components: "country:IL",
       key: Config.GEOCODE_API_KEY,
     };
+
+    // Query using google api
     const response = await geocodingClient.geocode({ params: params });
+
+    // If found
     if (response.data.status === "OK") {
       const { lng, lat } = response.data.results[0].geometry.location;
       return [lng, lat];
+      // Else where
     } else if (response.data.status === "ZERO_RESULTS") {
+      // Set coordiantes as default ones, which is the middle of the city
       const { lng, lat } = Config.DEFAULT_COORDINATE;
       return [lng, lat];
     }

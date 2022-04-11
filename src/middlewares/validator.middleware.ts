@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import { StatusCodes } from "http-status-codes";
 
 /**
- * Validation middleware, checks if express-validators has errors, if does, return 400.
+ * Validation middleware, checks if express-validators has errors, if does, return 400 with the errors.
  */
 export const validation: RequestHandler = async (req, res, next) => {
   try {

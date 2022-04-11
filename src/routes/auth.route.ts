@@ -1,7 +1,12 @@
 import { Router } from "express";
 
+// Controller imports
 import { login, logout, refreshToken } from "../controllers/auth.controller";
+
+// Middleware
 import { validation } from "../middlewares/validator.middleware";
+
+// Validation pipes
 import { loginPipe, refreshTokenPipe } from "../pipes/auth.pipe";
 
 const router = Router();

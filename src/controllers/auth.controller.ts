@@ -5,12 +5,15 @@ import jwt from "jsonwebtoken";
 import { StatusCodes } from "http-status-codes";
 import { RequestHandler } from "express";
 
-import { Payload } from "../models/payload.model";
 import CustomError from "../shared/error";
+import { Payload } from "../models/payload.model";
 import { Volunteer } from "../models/volunteer.model";
 import { Event } from "../models/event.model";
 import { RefreshToken } from "../models/refresh-token.model";
 
+/**
+ * Login logic
+ */
 export const login: RequestHandler = async (req, res, next) => {
   try {
     const { phone, password } = req.body;
@@ -43,12 +46,15 @@ export const login: RequestHandler = async (req, res, next) => {
     const payload: Payload = {
       userId: driver.id,
     };
+    // Sign jwt token
     const token = jwt.sign(payload, Config.JWT_SECRET, { expiresIn: Config.JWT_EXPERATION });
+    // Creates refresh token
     const refreshToken = await RefreshToken.createToken(driver);
 
+    // User authorities
     let authorities: Array<string> = ["driver"];
 
-    res.status(200).json({
+    return res.status(200).json({
       id: driver._id,
       username: driver.full_name,
       roles: authorities,
@@ -67,8 +73,10 @@ export const refreshToken: RequestHandler = async (req, res, next) => {
   try {
     const { refreshToken: requestToken } = req.body;
 
+    // Find the refresh token
     let refreshToken = await RefreshToken.findOne({ token: requestToken });
 
+    // Theres no refresh token
     if (!refreshToken) {
       res.status(403).json({ message: "Refresh token not found" });
       return;
@@ -105,7 +113,7 @@ export const refreshToken: RequestHandler = async (req, res, next) => {
 };
 
 /**
- * Refresh Token
+ * Logout
  */
 export const logout: RequestHandler = async (req, res, next) => {
   try {
@@ -119,13 +127,16 @@ export const logout: RequestHandler = async (req, res, next) => {
     // Remove the refresh token from db
     await RefreshToken.findOneAndRemove({ token: refreshToken });
 
-    // return access token and refresh token
+    // Return deleted message
     return res.status(200).json({ message: "Deleted" });
   } catch (err) {
     next(err);
   }
 };
 
+/**
+ * Handle admin login
+ */
 const adminLogin: RequestHandler = async (req, res, next) => {
   try {
     // Check if phone exist on any volunteer
@@ -139,12 +150,15 @@ const adminLogin: RequestHandler = async (req, res, next) => {
     const payload: Payload = {
       userId: volunteer.id,
     };
+
+    // Sign jwt token and create fresh token
     const token = jwt.sign(payload, Config.JWT_SECRET, { expiresIn: Config.JWT_EXPERATION });
     const refreshToken = await RefreshToken.createToken(volunteer);
 
+    // Add admin and driver permissions
     let authorities: Array<string> = ["driver", "admin"];
 
-    res.status(200).json({
+    return res.status(200).json({
       id: volunteer._id,
       username: volunteer.full_name,
       roles: authorities,

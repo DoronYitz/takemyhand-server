@@ -1,7 +1,7 @@
 import { ErrorRequestHandler } from "express";
 
 /**
- * Error middleware
+ * Custom error middleware
  */
 export const errorMiddleware: ErrorRequestHandler = (error, req, res, next) => {
   const status = error.status || 500;

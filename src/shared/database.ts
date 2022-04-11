@@ -5,13 +5,11 @@ import mongoose from "mongoose";
 /**
  * Connect to database
  */
-export const connectToDB = (): void => {
-  mongoose.connect(Config.MONGODB_URI);
-  const database = mongoose.connection;
-  database.once("open", () => {
+export const connectToDB = async (): Promise<void> => {
+  try {
+    await mongoose.connect(Config.MONGODB_URI);
     console.log("Connected to database");
-  });
-  database.on("error", () => {
+  } catch (err) {
     console.log("Error connecting to database");
-  });
+  }
 };

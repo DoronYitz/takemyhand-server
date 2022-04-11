@@ -1,12 +1,32 @@
 import { Schema, model, Document } from "mongoose";
 
 interface IEvent {
-  title?: string;
-  category?: string;
-  description?: string;
-  date?: Date;
-  active?: boolean;
-  secret?: string;
+  /**
+   * Event title
+   * @example 'Rosh Ha Shana'
+   */
+  title: string;
+  /**
+   * Event category
+   * @example 'Packaging day'
+   */
+  category: string;
+  /**
+   * @example 'It will be fun'
+   */
+  description: string;
+  /**
+   * Date of the event
+   */
+  date: Date;
+  /**
+   * Is an active event, only one event can be active at a time
+   */
+  active: boolean;
+  /**
+   * Event secret password used for the drivers to login in the event if its active
+   */
+  secret: string;
 }
 
 const eventSchema = new Schema(

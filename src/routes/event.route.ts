@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+// Controller imports
 import {
   createEvent,
   deleteEvent,
@@ -10,8 +11,13 @@ import {
   getEvent,
   getEvents,
 } from "../controllers/event.controller";
-import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
+
+// Middlewares
+import { adminMiddleware } from "../middlewares/admin.middleware";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
+
+// Validation pipes
 import { createEventPipe } from "../pipes/event.pipe";
 import { mongoIdPipe } from "../pipes/mongoid.pipe";
 

@@ -1,10 +1,9 @@
+/**
+ * Payload interface
+ */
 export interface Payload {
-
-
-
-
-
-
-
-  userId?: string;
+  /**
+   * user ObjectId (Mongo id)
+   */
+  userId: string;
 }

@@ -63,7 +63,7 @@ export const createParcelsFromTextFile: RequestHandler = async (req, res, next) 
       .filter((x) => x)
       .map((address) => {
         // Create parcel objects
-        const parcel: IParcel = { address };
+        const parcel: Partial<IParcel> = { address };
         return parcel;
       });
 
@@ -71,7 +71,6 @@ export const createParcelsFromTextFile: RequestHandler = async (req, res, next) 
       const coordinates = await getCoordinates(parcel.address);
       parcel.location = { type: "Point", coordinates };
     }
-    console.log(parcels);
 
     const parcelsDocumnets = await Parcel.insertMany(parcels);
     res.status(StatusCodes.CREATED).json(parcelsDocumnets);

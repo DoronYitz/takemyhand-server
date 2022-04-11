@@ -1,5 +1,6 @@
 import { Router } from "express";
 
+// Controller imports
 import {
   createVolunteer,
   deleteVolunteer,
@@ -8,8 +9,13 @@ import {
   getVolunteer,
   getVolunteers,
 } from "../controllers/volunteer.controller";
-import { adminMiddleware, authMiddleware } from "../middlewares/auth.middleware";
+
+// Middlewares
+import { adminMiddleware } from "../middlewares/admin.middleware";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import { validation } from "../middlewares/validator.middleware";
+
+// Validation pipes
 import { mongoIdPipe } from "../pipes/mongoid.pipe";
 import { createVolunteerPipe } from "../pipes/volunteer.pipe";
 
