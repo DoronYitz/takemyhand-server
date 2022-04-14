@@ -117,7 +117,7 @@ export const refreshToken: RequestHandler = async (req, res, next) => {
  */
 export const logout: RequestHandler = async (req, res, next) => {
   try {
-    const { refreshToken } = req.body;
+    const { refreshToken } = req.params;
 
     // Check if there is refresh token
     if (!refreshToken) {

@@ -10,7 +10,7 @@ import CustomError from "../shared/error";
  * @param {string} address address of the parcel/volunteer location
  * @returns {[lng: number, lat: number]} longtitue and latitude of the location
  */
-export const getCoordinates = async (address: string) => {
+export const getCoordinates = async (address: string): Promise<[lng: number, lat: number]> => {
   try {
     // Create a client
     const geocodingClient = new Client({});

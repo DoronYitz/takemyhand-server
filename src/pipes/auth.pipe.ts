@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param } from "express-validator";
 
 export const loginPipe = [
   // Phone is numeric and 10 len
@@ -23,6 +23,16 @@ export const loginPipe = [
 // Refresh token is uuid-4
 export const refreshTokenPipe = [
   body("refreshToken")
+    .notEmpty()
+    .withMessage("Bad request")
+    .bail()
+    .isUUID(4)
+    .withMessage("Invalid refresh token"),
+];
+
+// Refresh token is param uuid-4
+export const refreshTokenParamPipe = [
+  param("refreshToken")
     .notEmpty()
     .withMessage("Bad request")
     .bail()

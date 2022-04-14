@@ -9,7 +9,7 @@ export class Config {
   /**
    * Mongo db uri
    */
-  public static MONGODB_URI = process.env.MONGODB_URI;
+  public static MONGO_DB_URI = process.env.MONGO_DB_URI;
   /**
    * Jwt secret
    * @example 'my_5tr0nG_p4s5W07d'

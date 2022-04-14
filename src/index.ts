@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import helmet from "helmet";
 import fileUpload from "express-fileupload";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -19,6 +20,9 @@ const httpServer = createServer(app);
 
 // Create io server on top of http server
 const io = new Server(httpServer, { cors: { origin: true, credentials: true } });
+
+// helmet
+app.use(helmet());
 
 // cors
 app.use(

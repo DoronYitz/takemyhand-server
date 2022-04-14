@@ -7,7 +7,7 @@ import { login, logout, refreshToken } from "../controllers/auth.controller";
 import { validation } from "../middlewares/validator.middleware";
 
 // Validation pipes
-import { loginPipe, refreshTokenPipe } from "../pipes/auth.pipe";
+import { loginPipe, refreshTokenParamPipe, refreshTokenPipe } from "../pipes/auth.pipe";
 
 const router = Router();
 
@@ -26,10 +26,10 @@ router.post("/login", loginPipe, validation, login);
 router.post("/refreshtoken", refreshTokenPipe, validation, refreshToken);
 
 /**
- * @route   POST api/auth/logout
+ * @route   DELETE api/auth/logout/:refreshtoken
  * @desc    Log out, delete refresh token
  * @access  Public
  */
-router.post("/logout", logout);
+router.delete("/logout/:refreshToken", refreshTokenParamPipe, validation, logout);
 
 export default router;
