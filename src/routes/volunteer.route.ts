@@ -69,6 +69,6 @@ router.patch("/:id", mongoIdPipe, validation, getVolunteer, editVolunteer);
  * @desc    Delete volunteer
  * @access  Admin
  */
-router.delete("/:id", mongoIdPipe, validation, getVolunteer, deleteVolunteer);
+router.delete("/:id", mongoIdPipe, validation, deleteVolunteer);
 
 export default router;

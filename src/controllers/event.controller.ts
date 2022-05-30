@@ -59,7 +59,7 @@ export const createEvent: RequestHandler = async (req, res, next) => {
 export const getEvent: RequestHandler = async (req, res, next) => {
   try {
     // Getting id from params
-    const id = req.params.id;
+    const { id } = req.params;
 
     // Finding one
     const eventFound = await Event.findById(id).select("-secret");
@@ -154,8 +154,9 @@ export const editEventSecret: RequestHandler = async (req, res, next) => {
  */
 export const deleteEvent: RequestHandler = async (req, res, next) => {
   try {
-    await req.event.delete();
-    res.json({ message: "Event Deleted" });
+    const { id } = req.params;
+    const deletedEvent = await Event.findByIdAndDelete(id);
+    return res.json(deletedEvent);
   } catch (error) {
     next(error);
   }

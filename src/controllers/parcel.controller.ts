@@ -103,7 +103,7 @@ export const createParcelsFromTextFile: RequestHandler = async (req, res, next) 
 export const getParcel: RequestHandler = async (req, res, next) => {
   try {
     // Getting id from params
-    const id = req.params.id;
+    const { id } = req.params;
     // Finding one
     const parcelFound = await Parcel.findById(id).populate("volunteer");
     if (!parcelFound) {
@@ -176,8 +176,12 @@ export const editParcel: RequestHandler = async (req, res, next) => {
  */
 export const deleteParcel: RequestHandler = async (req, res, next) => {
   try {
-    await req.parcel.delete();
-    res.json({ message: "Parcel Deleted" });
+    // Getting id from params
+    const { id } = req.params;
+
+    // Delete it
+    const deletedParcel = await Parcel.findByIdAndDelete(id);
+    return res.json(deletedParcel);
   } catch (error) {
     next(error);
   }

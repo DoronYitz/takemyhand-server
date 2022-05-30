@@ -92,6 +92,6 @@ router.patch("/:id", mongoIdPipe, validation, getParcel, editParcel);
  * @desc    Delete parcel
  * @access  Admin
  */
-router.delete("/:id", mongoIdPipe, validation, getParcel, deleteParcel);
+router.delete("/:id", mongoIdPipe, validation, deleteParcel);
 
 export default router;

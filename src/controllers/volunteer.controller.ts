@@ -72,7 +72,7 @@ export const createVolunteer: RequestHandler = async (req, res, next) => {
 export const getVolunteer: RequestHandler = async (req, res, next) => {
   try {
     // Getting id from params
-    const id = req.params.id;
+    const { id } = req.params;
     // Finding one
     const volunteerFound = await Volunteer.findById(id).select("-location");
     if (!volunteerFound) {
@@ -118,9 +118,12 @@ export const editVolunteer: RequestHandler = async (req, res, next) => {
  */
 export const deleteVolunteer: RequestHandler = async (req, res, next) => {
   try {
+    // Getting id from params
+    const { id } = req.params;
+
     // Delete
-    await req.volunteer.delete();
-    return res.json({ message: "Volunteer Deleted" });
+    const deletedVolunteer = await Volunteer.findByIdAndDelete(id);
+    return res.json(deletedVolunteer);
   } catch (error) {
     next(error);
   }

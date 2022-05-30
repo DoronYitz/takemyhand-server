@@ -76,6 +76,6 @@ router.delete("/:id", mongoIdPipe, deleteEventData);
  * @desc    Delete event
  * @access  Admin
  */
-router.delete("/:id", mongoIdPipe, getEvent, deleteEvent);
+router.delete("/:id", mongoIdPipe, deleteEvent);
 
 export default router;

@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 // Controller imports
-import { getMessages } from "../controllers/message.controller";
+import { getLast50Messages } from "../controllers/message.controller";
 
 // Middlewares
 import { adminMiddleware } from "../middlewares/admin.middleware";
@@ -17,9 +17,9 @@ router.use(adminMiddleware);
 
 /**
  * @route   GET api/messages
- * @desc    Get all messages
+ * @desc    Get last 50 messages
  * @access  Admin
  */
-router.get("/", getMessages);
+router.get("/", getLast50Messages);
 
 export default router;

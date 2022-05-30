@@ -7,8 +7,8 @@ import CustomError from "../shared/error";
 /**
  * Using google geocoding api to recive coordiantes of an address.
  *
- * @param {string} address address of the parcel/volunteer location
- * @returns {[lng: number, lat: number]} longtitue and latitude of the location
+ * @param address address of the parcel/volunteer location
+ * @returns longtitue and latitude of the location
  */
 export const getCoordinates = async (address: string): Promise<[lng: number, lat: number]> => {
   try {
