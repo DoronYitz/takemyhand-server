@@ -14,7 +14,7 @@ import { getCoordinates } from "./geocoding.controller";
 export const getParcels: RequestHandler = async (req, res, next) => {
   try {
     // Getting all parcels
-    const parcels = await Parcel.find().populate("volunteer");
+    const parcels = await Parcel.find().populate("volunteer").lean();
     return res.json(parcels);
   } catch (error) {
     next(error);
@@ -28,7 +28,7 @@ export const getDriverParcels: RequestHandler = async (req, res, next) => {
   try {
     const driver = req.user;
     // Getting all driver's parcels
-    const driver_parcels = await Parcel.find({ volunteer: driver.userId });
+    const driver_parcels = await Parcel.find({ volunteer: driver.userId }).lean();
     return res.json(driver_parcels);
   } catch (error) {
     next(error);

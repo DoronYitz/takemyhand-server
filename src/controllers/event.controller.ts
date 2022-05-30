@@ -15,7 +15,7 @@ import { Parcel } from "../models/parcel.model";
 export const getEvents: RequestHandler = async (req, res, next) => {
   try {
     // Getting all events
-    const events = await Event.find().select("-secret");
+    const events = await Event.find().select("-secret").lean();
     return res.json(events);
   } catch (error) {
     next(error);
@@ -80,7 +80,7 @@ export const getEvent: RequestHandler = async (req, res, next) => {
  */
 export const getActiveEvent: RequestHandler = async (req, res, next) => {
   try {
-    const activeEvent = await Event.findOne({ active: true }).select("-secret");
+    const activeEvent = await Event.findOne({ active: true }).select("-secret").lean();
 
     // Not found
     if (!activeEvent) {

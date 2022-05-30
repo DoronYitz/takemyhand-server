@@ -11,7 +11,7 @@ import { getCoordinates } from "./geocoding.controller";
 export const getVolunteers: RequestHandler = async (req, res, next) => {
   try {
     // Getting all volunteers without location
-    const volunteers = await Volunteer.find().select("-location");
+    const volunteers = await Volunteer.find().select("-location").lean();
     return res.json(volunteers);
   } catch (error) {
     next(error);
@@ -24,7 +24,7 @@ export const getVolunteers: RequestHandler = async (req, res, next) => {
 export const getDrivers: RequestHandler = async (req, res, next) => {
   try {
     // Getting all drivers
-    const drivers = await Volunteer.find({ driver: true }).select("-location");
+    const drivers = await Volunteer.find({ driver: true }).select("-location").lean();
     res.json(drivers);
   } catch (error) {
     next(error);
